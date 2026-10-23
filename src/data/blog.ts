@@ -1,0 +1,767 @@
+import type { IconName } from "@/components/Icon";
+
+export type BlogCategory = "adulti" | "copii" | "cas" | "evaluari";
+
+export const BLOG_CATEGORIES: { key: BlogCategory; label: string }[] = [
+  { key: "adulti", label: "Adulți" },
+  { key: "copii", label: "Copii" },
+  { key: "cas", label: "CAS și acte" },
+  { key: "evaluari", label: "Evaluări" },
+];
+
+export type BlogRelated = {
+  href: string;
+  title: string;
+  sub: string;
+  /** "Vedeți serviciul" / "Profil" */
+  go: string;
+  /** lucide icon (services) ... */
+  icon?: IconName;
+  /** ... or a doctor photo (root-relative) */
+  img?: string;
+};
+
+export type BlogPost = {
+  slug: string;
+  cat: BlogCategory;
+  catLabel: string;
+  /** shown as "Publicat {date}" */
+  date: string;
+  readMin: number;
+  /** h1, Article headline, card title */
+  title: string;
+  /** last breadcrumb label */
+  crumb: string;
+  /** <title> and og:title */
+  metaTitle: string;
+  metaDescription: string;
+  authorNote: string;
+  intro: string;
+  coverAlt: string;
+  caption: string;
+  /** table-of-contents sidebar quick links */
+  tools: [href: string, icon: IconName, label: string][];
+  /** h2 of the "related" section, split on <br> */
+  relatedHeading: string[];
+  related: BlogRelated[];
+  /** slugs for "Citiți în continuare" */
+  next: string[];
+  cta: { h2: string; p: string };
+  /** card text on the /blog/ grid */
+  excerpt: string;
+  /** Article JSON-LD fields besides headline/image/mainEntityOfPage/articleSection (see ArticleTemplate) */
+  schema: {
+    description: string;
+    datePublished: string;
+    dateModified: string;
+    author: Record<string, string>;
+    publisher: Record<string, string>;
+    about?: Record<string, string>;
+  };
+  /** FAQPage JSON-LD: [question, answer] (the visible FAQ lives in the article body) */
+  faq: [question: string, answer: string][];
+  /** the one big card on top of /blog/ */
+  featured?: boolean;
+  featuredAlt?: string;
+  featuredExcerpt?: string;
+};
+
+/**
+ * All posts. Order = order of the CollectionPage `hasPart` JSON-LD.
+ * The /blog/ grid shows the non-featured posts in this order, then the featured one.
+ * Cover/card image convention: /img/gen/blog-{slug}.jpg. The body JSX lives in src/content/blog/{slug}.tsx.
+ */
+export const blogPosts: BlogPost[] = [
+  {
+    "slug": "cand-mergem-la-psihiatru",
+    "cat": "adulti",
+    "catLabel": "Adulți",
+    "date": "21.10.2026",
+    "readMin": 8,
+    "title": "Când este momentul pentru un consult psihiatric",
+    "crumb": "Când este momentul pentru un consult psihiatric",
+    "metaTitle": "Când este momentul pentru un consult psihiatric | Dr. Iova",
+    "metaDescription": "Semnele care merită luate în serios, ce se întâmplă la prima consultație psihiatrică și cum ajungeți la psihiatru prin CAS, în Oradea. Articol educativ.",
+    "authorNote": "revizuire medicală: de confirmat cu Șef lucr. Dr. Sorin Iova",
+    "intro": "Mulți oameni amână un consult psihiatric ani de zile, nu pentru că nu ar avea nevoie, ci pentru că nu știu ce se întâmplă acolo. Articolul descrie semnele care merită atenție, cum decurge prima întâlnire și cum ajungeți la medic prin CAS.",
+    "coverAlt": "Lumină de dimineață într-un cabinet de consultații",
+    "caption": "Cabinet de consultații, imagine ilustrativă",
+    "tools": [
+      [
+        "/programare/",
+        "calendar",
+        "Programare la clinică"
+      ],
+      [
+        "/cas/",
+        "receipt",
+        "Cum funcționează CAS"
+      ],
+      [
+        "/medici/",
+        "users",
+        "Medicii clinicii"
+      ]
+    ],
+    "relatedHeading": [
+      "Servicii și medici",
+      "legate de acest articol"
+    ],
+    "related": [
+      {
+        "href": "/servicii/psihiatrie-adulti/",
+        "title": "Psihiatrie pentru adulți",
+        "sub": "Consultație, diagnostic, urmărire în timp",
+        "go": "Vedeți serviciul",
+        "icon": "brain"
+      },
+      {
+        "href": "/servicii/consultatii-cas/",
+        "title": "Consultații prin CAS",
+        "sub": "Gratuite, cu bilet de trimitere",
+        "go": "Vedeți serviciul",
+        "icon": "receipt"
+      },
+      {
+        "href": "/medici/sorin-iova/",
+        "title": "Șef lucr. Dr. Sorin Iova",
+        "sub": "Medic primar psihiatru",
+        "go": "Profil",
+        "img": "/img/sorin-iova.png"
+      },
+      {
+        "href": "/medici/sebastian-macrea/",
+        "title": "Dr. Sebastian Macrea",
+        "sub": "Medic specialist psihiatru",
+        "go": "Profil",
+        "img": "/img/sebastian-macrea.png"
+      }
+    ],
+    "next": [
+      "psihiatru-psiholog-psihoterapeut-diferente",
+      "consultatie-psihiatrie-cas-bilet-trimitere",
+      "evaluare-psihiatrica-copil-ce-presupune"
+    ],
+    "cta": {
+      "h2": "Programare la psihiatrie, în Oradea",
+      "p": "Str. Ceyrat nr. 31, bl. WR12. Cu bilet de trimitere, consultația este gratuită prin CAS. Luni–vineri, 08:00–20:00."
+    },
+    "schema": {
+      "description": "Semnele care merită luate în serios, ce se întâmplă la prima consultație psihiatrică și cum ajungeți la psihiatru prin CAS în Oradea.",
+      "datePublished": "2026-10-21",
+      "dateModified": "2026-10-21",
+      "author": {
+        "@type": "Organization",
+        "name": "Echipa Clinicii Dr. Iova",
+        "url": "https://clinicadriova.ro/despre/"
+      },
+      "publisher": {
+        "@id": "https://clinicadriova.ro/#clinica"
+      },
+      "about": {
+        "@type": "MedicalSpecialty",
+        "name": "Psychiatry"
+      }
+    },
+    "faq": [
+      [
+        "Am nevoie de bilet de trimitere pentru psihiatru?",
+        "Pentru o consultație gratuită prin CAS, în general da: biletul de trimitere vine de la medicul de familie sau de la alt medic specialist aflat în contract cu casa de asigurări. Normele CNAS prevăd și situații în care persoanele cu anumite diagnostice psihiatrice deja stabilite pot merge direct la psihiatru. Fără bilet, consultația se plătește."
+      ],
+      [
+        "Psihiatrul prescrie obligatoriu medicamente?",
+        "Nu. Medicul recomandă ce consideră potrivit după evaluare: uneori tratament medicamentos, alteori psihoterapie, uneori doar urmărire în timp. Decizia se discută cu dumneavoastră."
+      ],
+      [
+        "Consultația psihiatrică rămâne confidențială?",
+        "Da. Medicul este ținut de secretul profesional, iar datele medicale sunt date cu caracter special protejate de GDPR. Informațiile nu ajung la angajator sau la familie fără acordul dumneavoastră, cu excepțiile prevăzute de lege."
+      ],
+      [
+        "Cât durează prima consultație?",
+        "De regulă mai mult decât o consultație obișnuită, pentru că medicul are nevoie de timp să înțeleagă istoricul și contextul. Durata exactă diferă de la caz la caz."
+      ],
+      [
+        "Pot veni cu cineva din familie?",
+        "Da, dacă vă este de ajutor. Medicul poate cere să discute și separat cu dumneavoastră."
+      ]
+    ],
+    "excerpt": "Semnele care merită luate în serios, ce se întâmplă la prima consultație și cum ajungeți la psihiatru prin CAS.",
+    "featured": true,
+    "featuredAlt": "Fereastră luminoasă într-un cabinet de consultații",
+    "featuredExcerpt": "Semnele care merită luate în serios, ce se întâmplă la prima consultație și cum ajungeți la un psihiatru gratuit, prin CAS. Fără diagnostice la distanță."
+  },
+  {
+    "slug": "psihiatru-psiholog-psihoterapeut-diferente",
+    "cat": "adulti",
+    "catLabel": "Adulți",
+    "date": "21.10.2026",
+    "readMin": 7,
+    "title": "Psihiatru, psiholog sau psihoterapeut: care este diferența",
+    "crumb": "Psihiatru, psiholog sau psihoterapeut",
+    "metaTitle": "Psihiatru, psiholog, psihoterapeut: diferențele | Dr. Iova",
+    "metaDescription": "Ce face psihiatrul, ce face psihologul clinician și ce face psihoterapeutul. Cine prescrie tratament, cine evaluează, la cine mergeți prima dată. Oradea.",
+    "authorNote": "revizuire: de confirmat cu Dr. Sorin Iova și Psih. Mihaela Caba",
+    "intro": "Trei profesii, trei pregătiri diferite, aceeași sală de așteptare. Confuzia este normală. Articolul explică ce face fiecare, cine are voie să facă ce și cum alegeți punctul de plecare.",
+    "coverAlt": "Trei scaune într-un cabinet luminos",
+    "caption": "Imagine ilustrativă",
+    "tools": [
+      [
+        "/programare/",
+        "calendar",
+        "Programare la clinică"
+      ],
+      [
+        "/servicii/psihologie-clinica/",
+        "message-circle-heart",
+        "Psihologie clinică"
+      ],
+      [
+        "/medici/",
+        "users",
+        "Medicii clinicii"
+      ]
+    ],
+    "relatedHeading": [
+      "Servicii și medici",
+      "legate de acest articol"
+    ],
+    "related": [
+      {
+        "href": "/servicii/psihiatrie-adulti/",
+        "title": "Psihiatrie pentru adulți",
+        "sub": "Consultație, diagnostic, urmărire",
+        "go": "Vedeți serviciul",
+        "icon": "brain"
+      },
+      {
+        "href": "/servicii/psihologie-clinica/",
+        "title": "Psihologie clinică",
+        "sub": "Evaluări, consiliere, rapoarte",
+        "go": "Vedeți serviciul",
+        "icon": "message-circle-heart"
+      },
+      {
+        "href": "/servicii/psihoterapie-integrativa/",
+        "title": "Psihoterapie integrativă",
+        "sub": "Ședințe regulate, obiective comune",
+        "go": "Vedeți serviciul",
+        "icon": "armchair"
+      },
+      {
+        "href": "/medici/mihaela-caba/",
+        "title": "Psih. Mihaela Caba",
+        "sub": "Psiholog clinician, logoped",
+        "go": "Profil",
+        "img": "/img/mihaela-caba.png"
+      }
+    ],
+    "next": [
+      "cand-mergem-la-psihiatru",
+      "consultatie-psihiatrie-cas-bilet-trimitere",
+      "aviz-psihologic-permis-arma-pasi"
+    ],
+    "cta": {
+      "h2": "Nu știți la cine să mergeți? Întrebați recepția.",
+      "p": "Psihiatri, psihologi clinicieni și psihoterapeuți, la aceeași adresă din Oradea. Luni–vineri, 08:00–20:00."
+    },
+    "schema": {
+      "description": "Ce face un psihiatru, ce face un psiholog clinician și ce face un psihoterapeut. Cine prescrie tratament, cine evaluează, la cine mergeți prima dată.",
+      "datePublished": "2026-10-21",
+      "dateModified": "2026-10-21",
+      "author": {
+        "@type": "Organization",
+        "name": "Echipa Clinicii Dr. Iova",
+        "url": "https://clinicadriova.ro/despre/"
+      },
+      "publisher": {
+        "@id": "https://clinicadriova.ro/#clinica"
+      }
+    },
+    "faq": [
+      [
+        "Psihologul poate prescrie medicamente?",
+        "Nu. În România, tratamentul medicamentos este prescris exclusiv de medic. Psihologul clinician evaluează, consiliază și, dacă are atestat, face psihoterapie."
+      ],
+      [
+        "Un psihiatru poate face psihoterapie?",
+        "Doar dacă are o formare separată în psihoterapie și atestat de la Colegiul Psihologilor din România. Specialitatea medicală de psihiatrie nu include automat dreptul de a practica psihoterapie."
+      ],
+      [
+        "Evaluarea psihologică este decontată prin CAS?",
+        "Anumite servicii ale psihologului clinician (evaluare psihologică clinică, consiliere, psihoterapie) sunt incluse în pachetul de bază ca servicii conexe actului medical, la recomandarea medicului psihiatru sau psihiatru pediatru, în condițiile stabilite de CNAS."
+      ],
+      [
+        "Cum verific dacă un psiholog are drept de practică?",
+        "Colegiul Psihologilor din România ține Registrul Unic al Psihologilor cu drept de liberă practică, consultabil public pe copsi.ro."
+      ],
+      [
+        "La Clinica Dr. Iova găsesc toate cele trei profesii?",
+        "Da. În clinică lucrează medici psihiatri pentru adulți și copii, psihologi clinicieni și se oferă psihoterapie integrativă și EMDR, la aceeași recepție."
+      ]
+    ],
+    "excerpt": "Trei profesii care lucrează adesea împreună. Ce face fiecare, cine prescrie tratament și la cine mergeți prima dată."
+  },
+  {
+    "slug": "repere-dezvoltare-limbaj-copii-0-5-ani",
+    "cat": "copii",
+    "catLabel": "Copii",
+    "date": "21.10.2026",
+    "readMin": 8,
+    "title": "Repere de dezvoltare a limbajului la copii, de la 0 la 5 ani",
+    "crumb": "Repere de dezvoltare a limbajului la copii",
+    "metaTitle": "Repere de limbaj la copii, 0–5 ani | Clinica Dr. Iova",
+    "metaDescription": "Ce spun și ce înțeleg copiii la 1, 2, 3, 4 și 5 ani, după reperele CDC, și când merită o evaluare logopedică. Articol pentru părinți, Clinica Dr. Iova Oradea.",
+    "authorNote": "revizuire: de confirmat cu Psih. Mihaela Caba (logoped) și Dr. Roxana Samuila",
+    "intro": "„Vorbește puțin pentru vârsta lui?” este una dintre cele mai frecvente întrebări pe care le primim de la părinți. Articolul pune laolaltă reperele publicate de CDC pentru fiecare vârstă și explică ce înseamnă, concret, o evaluare logopedică.",
+    "coverAlt": "Cărți ilustrate și jucării de lemn pe o masă joasă",
+    "caption": "Imagine ilustrativă",
+    "tools": [
+      [
+        "/programare/",
+        "calendar",
+        "Programare la clinică"
+      ],
+      [
+        "/servicii/logopedie/",
+        "audio-lines",
+        "Logopedie"
+      ],
+      [
+        "/servicii/evaluarea-copiilor/",
+        "puzzle",
+        "Evaluarea copiilor"
+      ]
+    ],
+    "relatedHeading": [
+      "Servicii și specialiști",
+      "legați de acest articol"
+    ],
+    "related": [
+      {
+        "href": "/servicii/logopedie/",
+        "title": "Logopedie",
+        "sub": "Evaluare și terapie a limbajului, Forbrain",
+        "go": "Vedeți serviciul",
+        "icon": "audio-lines"
+      },
+      {
+        "href": "/servicii/evaluarea-copiilor/",
+        "title": "Evaluarea copiilor",
+        "sub": "Dezvoltare, atenție, comportament",
+        "go": "Vedeți serviciul",
+        "icon": "puzzle"
+      },
+      {
+        "href": "/medici/mihaela-caba/",
+        "title": "Psih. Mihaela Caba",
+        "sub": "Psiholog clinician, logoped",
+        "go": "Profil",
+        "img": "/img/mihaela-caba.png"
+      },
+      {
+        "href": "/medici/roxana-samuila/",
+        "title": "Dr. Roxana Samuila",
+        "sub": "Medic specialist psihiatrie pediatrică",
+        "go": "Profil",
+        "img": "/img/roxana-samuila.png"
+      }
+    ],
+    "next": [
+      "evaluare-psihiatrica-copil-ce-presupune",
+      "psihiatru-psiholog-psihoterapeut-diferente",
+      "consultatie-psihiatrie-cas-bilet-trimitere"
+    ],
+    "cta": {
+      "h2": "Evaluare logopedică pentru copii, în Oradea",
+      "p": "Logoped, psiholog clinician și psihiatru pediatru, la aceeași recepție. Str. Ceyrat nr. 31, bl. WR12. Luni–vineri, 08:00–20:00."
+    },
+    "schema": {
+      "description": "Ce spun și ce înțeleg copiii la 1, 2, 3, 4 și 5 ani, după reperele CDC, și când merită o evaluare logopedică.",
+      "datePublished": "2026-10-21",
+      "dateModified": "2026-10-21",
+      "author": {
+        "@type": "Organization",
+        "name": "Echipa Clinicii Dr. Iova",
+        "url": "https://clinicadriova.ro/despre/"
+      },
+      "publisher": {
+        "@id": "https://clinicadriova.ro/#clinica"
+      }
+    },
+    "faq": [
+      [
+        "Copilul meu are 2 ani și spune puține cuvinte. Este normal?",
+        "Reperele CDC arată că, până la 2 ani, majoritatea copiilor spun cel puțin două cuvinte împreună și arată lucruri într-o carte când sunt întrebați. Dacă copilul nu face acestea, o evaluare logopedică este un pas rezonabil. Evaluarea nu înseamnă diagnostic, ci o măsurare a punctului în care se află copilul."
+      ],
+      [
+        "Băieții vorbesc mai târziu decât fetele?",
+        "Există diferențe statistice mici, dar ele nu explică o întârziere semnificativă. Reperele CDC sunt aceleași pentru băieți și fete, iar o întârziere nu se amână pe motiv de gen."
+      ],
+      [
+        "Bilingvismul întârzie vorbirea?",
+        "Copiii crescuți în două limbi își împart vocabularul între ele, așa că în fiecare limbă pot părea să știe mai puține cuvinte. Totalul este de regulă comparabil cu al copiilor monolingvi. La evaluare, logopedul ține cont de ambele limbi."
+      ],
+      [
+        "Ecranele afectează limbajul?",
+        "Limbajul se învață prin interacțiune: copilul vorbește cu cineva care îi răspunde. Timpul petrecut pasiv la ecran înlocuiește acest schimb. Organizația Mondială a Sănătății recomandă ca copiii sub 2 ani să nu petreacă timp în fața ecranelor, iar între 2 și 4 ani, cel mult o oră pe zi."
+      ],
+      [
+        "Cu ce începem: logoped, psiholog sau psihiatru pediatru?",
+        "Dacă singura îngrijorare este vorbirea, logopedul este primul pas. Dacă apar și semne în zona contactului vizual, a jocului sau a răspunsului la nume, evaluarea se face împreună cu psihologul și psihiatrul pediatru. La Clinica Dr. Iova toți trei lucrează în aceeași clinică."
+      ]
+    ],
+    "excerpt": "Ce spun și ce înțeleg copiii la 1, 2, 3, 4 și 5 ani, după reperele CDC, și când merită o evaluare logopedică."
+  },
+  {
+    "slug": "evaluare-psihiatrica-copil-ce-presupune",
+    "cat": "copii",
+    "catLabel": "Copii",
+    "date": "21.10.2026",
+    "readMin": 8,
+    "title": "Evaluarea psihiatrică a copilului: ce presupune",
+    "crumb": "Evaluarea psihiatrică a copilului",
+    "metaTitle": "Evaluarea psihiatrică a copilului: ce presupune | Dr. Iova",
+    "metaDescription": "Cum decurge prima întâlnire cu psihiatrul pediatru, ce întrebări primesc părinții, ce aduceți, ce urmează și ce decontează CAS. Clinica Dr. Iova, Oradea.",
+    "authorNote": "revizuire medicală: de confirmat cu Dr. Roxana Samuila",
+    "intro": "Pentru mulți părinți, cuvântul „psihiatru” lângă numele copilului sună greu. În realitate, prima evaluare este în mare parte o conversație și o observare atentă. Iată cum decurge, ce aduceți și ce urmează.",
+    "coverAlt": "Colț de joacă într-un cabinet, cu lumină naturală",
+    "caption": "Imagine ilustrativă",
+    "tools": [
+      [
+        "/programare/",
+        "calendar",
+        "Programare la clinică"
+      ],
+      [
+        "/servicii/psihiatrie-pediatrica/",
+        "baby",
+        "Psihiatrie pediatrică"
+      ],
+      [
+        "/cas/",
+        "receipt",
+        "Cum funcționează CAS"
+      ]
+    ],
+    "relatedHeading": [
+      "Servicii și specialiști",
+      "legați de acest articol"
+    ],
+    "related": [
+      {
+        "href": "/servicii/psihiatrie-pediatrica/",
+        "title": "Psihiatrie pediatrică",
+        "sub": "Evaluare și plan, discutate cu părinții",
+        "go": "Vedeți serviciul",
+        "icon": "baby"
+      },
+      {
+        "href": "/servicii/evaluarea-copiilor/",
+        "title": "Evaluarea copiilor",
+        "sub": "Dezvoltare, atenție, comportament",
+        "go": "Vedeți serviciul",
+        "icon": "puzzle"
+      },
+      {
+        "href": "/servicii/evaluari-comisii/",
+        "title": "Evaluări pentru comisii",
+        "sub": "Grad de handicap, orientare școlară",
+        "go": "Vedeți serviciul",
+        "icon": "file-check"
+      },
+      {
+        "href": "/medici/roxana-samuila/",
+        "title": "Dr. Roxana Samuila",
+        "sub": "Medic specialist psihiatrie pediatrică",
+        "go": "Profil",
+        "img": "/img/roxana-samuila.png"
+      }
+    ],
+    "next": [
+      "repere-dezvoltare-limbaj-copii-0-5-ani",
+      "consultatie-psihiatrie-cas-bilet-trimitere",
+      "psihiatru-psiholog-psihoterapeut-diferente"
+    ],
+    "cta": {
+      "h2": "Programare la psihiatrie pediatrică, în Oradea",
+      "p": "Psihiatru pediatru, psiholog clinician și logoped, în aceeași clinică. Cu bilet de trimitere, consultația este gratuită prin CAS."
+    },
+    "schema": {
+      "description": "Cum decurge prima întâlnire cu psihiatrul pediatru, ce întrebări primesc părinții, ce aduceți cu dumneavoastră și ce urmează după.",
+      "datePublished": "2026-10-21",
+      "dateModified": "2026-10-21",
+      "author": {
+        "@type": "Organization",
+        "name": "Echipa Clinicii Dr. Iova",
+        "url": "https://clinicadriova.ro/despre/"
+      },
+      "publisher": {
+        "@id": "https://clinicadriova.ro/#clinica"
+      },
+      "about": {
+        "@type": "MedicalSpecialty",
+        "name": "Psychiatry"
+      }
+    },
+    "faq": [
+      [
+        "La ce vârstă poate fi evaluat un copil de psihiatrul pediatru?",
+        "Psihiatria pediatrică acoperă copiii și adolescenții de la vârste mici până la 18 ani. Pentru copiii foarte mici, evaluarea se concentrează pe dezvoltare și se face împreună cu psihologul și logopedul."
+      ],
+      [
+        "Copilul primește medicamente după prima evaluare?",
+        "Nu neapărat. La copii, prima recomandare este de multe ori o evaluare psihologică amănunțită, terapie sau intervenții la școală și acasă. Un eventual tratament medicamentos se discută cu părinții, cu explicarea motivelor și a alternativelor."
+      ],
+      [
+        "Trebuie să îi spun copilului unde mergem?",
+        "Da, pe limba lui. „Mergem la un doctor care vorbește cu copiii și cu părinții despre cum se simt și cum le merge la școală” este suficient. Copiii se descurcă mai bine când știu ce urmează."
+      ],
+      [
+        "Este nevoie de bilet de trimitere?",
+        "Pentru consultația gratuită prin CAS, biletul de trimitere vine de regulă de la medicul de familie sau de la pediatru. Fără bilet, consultația se plătește. Normele CNAS prevăd și situații de acces direct pentru copiii cu anumite diagnostice deja stabilite."
+      ],
+      [
+        "Ce înseamnă diagnosticul pentru școală?",
+        "Un diagnostic nu se transmite școlii fără acordul părinților. Atunci când părinții doresc, documentele medicale pot sta la baza unor măsuri de sprijin (certificat de orientare școlară, profesor de sprijin), prin comisiile din cadrul CJRAE."
+      ],
+      [
+        "Ce decontează CAS pentru copiii cu autism?",
+        "Din 01.10.2023, printr-un subprogram național CNAS, copiii și adulții cu diagnostic de tulburare din spectrul autist stabilit de medicul psihiatru beneficiază de ședințe decontate de psihoterapie, consiliere psihologică și psihopedagogie specială-logopedie, la furnizori aflați în contract cu casa de asigurări."
+      ]
+    ],
+    "excerpt": "Cum decurge prima întâlnire cu psihiatrul pediatru, ce întrebări primesc părinții, ce aduceți cu dumneavoastră și ce urmează după."
+  },
+  {
+    "slug": "consultatie-psihiatrie-cas-bilet-trimitere",
+    "cat": "cas",
+    "catLabel": "CAS și acte",
+    "date": "21.10.2026",
+    "readMin": 7,
+    "title": "Consultația de psihiatrie prin CAS: biletul de trimitere",
+    "crumb": "Consultația de psihiatrie prin CAS",
+    "metaTitle": "Psihiatrie prin CAS: biletul de trimitere | Dr. Iova Oradea",
+    "metaDescription": "Cine eliberează biletul de trimitere pentru psihiatrie, câte consultații acoperă, cât este valabil și ce aduceți la clinică. Regulile CNAS, pe scurt.",
+    "authorNote": "revizuire: de confirmat cu recepția clinicii și Dr. Sorin Iova",
+    "intro": "Biletul de trimitere este hârtia care face diferența dintre o consultație gratuită și una plătită. Articolul explică, pe baza normelor CNAS în vigoare, cine îl eliberează, ce acoperă și ce aveți nevoie în ziua programării.",
+    "coverAlt": "Documente și card pe un birou de recepție",
+    "caption": "Imagine ilustrativă",
+    "tools": [
+      [
+        "/cas/",
+        "receipt",
+        "Programare prin CAS, pas cu pas"
+      ],
+      [
+        "/programare/",
+        "calendar",
+        "Programare la clinică"
+      ],
+      [
+        "/servicii/consultatii-cas/",
+        "badge-check",
+        "Consultații prin CAS"
+      ]
+    ],
+    "relatedHeading": [
+      "Servicii și medici",
+      "legate de acest articol"
+    ],
+    "related": [
+      {
+        "href": "/servicii/consultatii-cas/",
+        "title": "Consultații prin CAS",
+        "sub": "Gratuite, cu bilet de trimitere",
+        "go": "Vedeți serviciul",
+        "icon": "receipt"
+      },
+      {
+        "href": "/servicii/psihiatrie-adulti/",
+        "title": "Psihiatrie pentru adulți",
+        "sub": "Consultație, diagnostic, urmărire",
+        "go": "Vedeți serviciul",
+        "icon": "brain"
+      },
+      {
+        "href": "/servicii/neurologie/",
+        "title": "Neurologie",
+        "sub": "Consult neurologic, aceeași recepție",
+        "go": "Vedeți serviciul",
+        "icon": "activity"
+      },
+      {
+        "href": "/medici/sorin-iova/",
+        "title": "Șef lucr. Dr. Sorin Iova",
+        "sub": "Medic primar psihiatru",
+        "go": "Profil",
+        "img": "/img/sorin-iova.png"
+      }
+    ],
+    "next": [
+      "cand-mergem-la-psihiatru",
+      "evaluare-psihiatrica-copil-ce-presupune",
+      "aviz-psihologic-permis-arma-pasi"
+    ],
+    "cta": {
+      "h2": "Programare prin CAS, la Clinica Dr. Iova",
+      "p": "Aveți biletul de trimitere? Sunați la recepție sau completați formularul. Str. Ceyrat nr. 31, bl. WR12, Oradea."
+    },
+    "schema": {
+      "description": "Cine eliberează biletul de trimitere pentru psihiatrie, câte consultații acoperă, cât este valabil și ce aduceți la clinică.",
+      "datePublished": "2026-10-21",
+      "dateModified": "2026-10-21",
+      "author": {
+        "@type": "Organization",
+        "name": "Echipa Clinicii Dr. Iova",
+        "url": "https://clinicadriova.ro/despre/"
+      },
+      "publisher": {
+        "@id": "https://clinicadriova.ro/#clinica"
+      }
+    },
+    "faq": [
+      [
+        "Cine poate elibera biletul de trimitere pentru psihiatrie?",
+        "Medicul de familie sau alt medic de specialitate aflat în contract cu casa de asigurări de sănătate, cu condiția ca pacientul să fi avut biletul inițial de la medicul de familie. Medicul trimițător trebuie să fie în relație contractuală cu casa."
+      ],
+      [
+        "Câte consultații acoperă un bilet de trimitere?",
+        "Pentru un episod acut sau subacut: maximum 3 consultații în 60 de zile de la prima. Pentru afecțiuni cronice urmărite la aceeași specialitate: maximum 4 consultații pe trimestru, nu mai mult de 2 pe lună. Consultațiile următoare, la solicitarea medicului, se fac fără alt bilet."
+      ],
+      [
+        "Pot merge la psihiatru fără bilet de trimitere, prin CAS?",
+        "Normele CNAS (Anexa 13, pct. 22) permit prezentarea directă la psihiatru pentru persoanele cu anumite diagnostice deja stabilite: tulburări din grupul schizofreniei, tulburări ale dispoziției, autism, ADHD, tulburare obsesiv-compulsivă, tulburare de stres posttraumatic, tulburări de personalitate și altele. Pentru o primă consultație, fără diagnostic anterior, biletul este necesar."
+      ],
+      [
+        "Ce se întâmplă dacă nu am bilet de trimitere?",
+        "Consultația se poate face în regim privat, cu plată. La Clinica Dr. Iova, recepția vă poate spune tariful și cel mai apropiat loc disponibil."
+      ],
+      [
+        "Biletul de trimitere este valabil și la o clinică privată?",
+        "Da, dacă clinica are contract cu casa de asigurări. Clinica Dr. Iova are contract cu CAS Bihor, așa că biletul de trimitere este valabil aici la fel ca într-un ambulatoriu de spital."
+      ]
+    ],
+    "excerpt": "Cine eliberează biletul, cât timp este valabil, câte consultații acoperă și ce aduceți la clinică. Regulile CNAS, pe scurt."
+  },
+  {
+    "slug": "aviz-psihologic-permis-arma-pasi",
+    "cat": "evaluari",
+    "catLabel": "Evaluări",
+    "date": "21.10.2026",
+    "readMin": 6,
+    "title": "Avizul psihologic pentru permisul de armă: pașii",
+    "crumb": "Avizul psihologic pentru permisul de armă",
+    "metaTitle": "Avizul psihologic pentru permisul de armă: pașii | Dr. Iova",
+    "metaDescription": "Ce cere Legea 295/2004, cât este valabil avizul psihologic, cum decurge evaluarea și ce acte depuneți la poliție. Explicat de Clinica Dr. Iova, Oradea.",
+    "authorNote": "revizuire: de confirmat cu psihologul care eliberează avizele în clinică",
+    "intro": "Pentru a deține legal o armă în România, legea cere, printre altele, un aviz psihologic recent. Articolul explică baza legală, ce verifică evaluarea, cât este valabil avizul și ce documente intră în dosarul de la poliție.",
+    "coverAlt": "Birou cu formular, pix și ceas",
+    "caption": "Imagine ilustrativă",
+    "tools": [
+      [
+        "/programare/",
+        "calendar",
+        "Programare la clinică"
+      ],
+      [
+        "/servicii/aviz-psihologic-port-arma/",
+        "badge-check",
+        "Aviz psihologic port-armă"
+      ],
+      [
+        "/servicii/psihologie-clinica/",
+        "message-circle-heart",
+        "Psihologie clinică"
+      ]
+    ],
+    "relatedHeading": [
+      "Servicii",
+      "legate de acest articol"
+    ],
+    "related": [
+      {
+        "href": "/servicii/aviz-psihologic-port-arma/",
+        "title": "Aviz psihologic port-armă",
+        "sub": "Evaluare și aviz, în original",
+        "go": "Vedeți serviciul",
+        "icon": "badge-check"
+      },
+      {
+        "href": "/servicii/psihologie-clinica/",
+        "title": "Psihologie clinică",
+        "sub": "Evaluări, consiliere, rapoarte",
+        "go": "Vedeți serviciul",
+        "icon": "message-circle-heart"
+      },
+      {
+        "href": "/servicii/evaluari-comisii/",
+        "title": "Evaluări pentru comisii",
+        "sub": "Handicap, pensionare",
+        "go": "Vedeți serviciul",
+        "icon": "file-check"
+      },
+      {
+        "href": "/medici/mihaela-caba/",
+        "title": "Psih. Mihaela Caba",
+        "sub": "Psiholog clinician, logoped",
+        "go": "Profil",
+        "img": "/img/mihaela-caba.png"
+      }
+    ],
+    "next": [
+      "psihiatru-psiholog-psihoterapeut-diferente",
+      "cand-mergem-la-psihiatru",
+      "consultatie-psihiatrie-cas-bilet-trimitere"
+    ],
+    "cta": {
+      "h2": "Programare pentru aviz psihologic, în Oradea",
+      "p": "Evaluare psihologică pentru permis de armă, la Clinica Dr. Iova. Str. Ceyrat nr. 31, bl. WR12. Luni–vineri, 08:00–20:00."
+    },
+    "schema": {
+      "description": "Ce cere legea, cât este valabil avizul psihologic, cum decurge evaluarea și ce acte depuneți la poliție.",
+      "datePublished": "2026-10-21",
+      "dateModified": "2026-10-21",
+      "author": {
+        "@type": "Organization",
+        "name": "Echipa Clinicii Dr. Iova",
+        "url": "https://clinicadriova.ro/despre/"
+      },
+      "publisher": {
+        "@id": "https://clinicadriova.ro/#clinica"
+      }
+    },
+    "faq": [
+      [
+        "Cât timp este valabil avizul psihologic pentru armă?",
+        "Normele de aplicare a Legii 295/2004 (HG 11/2018) cer ca avizul psihologic să fie eliberat cu cel mult 6 luni înaintea depunerii cererii la poliție. Același termen se aplică certificatului medical."
+      ],
+      [
+        "Avizul psihologic este același lucru cu certificatul medical?",
+        "Nu. Sunt două documente separate. Certificatul medical este eliberat de o unitate sanitară autorizată, după examinări în mai multe specialități. Avizul psihologic este eliberat de un psiholog atestat, după o evaluare psihologică."
+      ],
+      [
+        "Cât durează evaluarea psihologică?",
+        "O evaluare serioasă include interviu și probe standardizate și durează, de regulă, mai mult de o oră. Durata exactă la clinică este de confirmat cu recepția."
+      ],
+      [
+        "Avizul este decontat prin CAS?",
+        "Nu. Avizul psihologic pentru permis de armă nu este un serviciu medical din pachetul de bază; se plătește."
+      ],
+      [
+        "Ce se întâmplă dacă nu primesc aviz favorabil?",
+        "Psihologul vă explică rezultatul. Un aviz nefavorabil nu este un diagnostic, ci o concluzie privind aptitudinea pentru o activitate anume, la momentul evaluării."
+      ],
+      [
+        "La ce interval se reînnoiește?",
+        "Permisul de armă se prelungește la fiecare 5 ani, iar la prelungire se depune din nou un aviz psihologic recent. Poliția poate solicita o reexaminare și între termene, motivat."
+      ]
+    ],
+    "excerpt": "Ce cere legea, cât timp este valabil avizul, cum decurge evaluarea și ce acte aveți nevoie la poliție."
+  }
+];
+
+
+export function getPost(slug: string): BlogPost | undefined {
+  return blogPosts.find((p) => p.slug === slug);
+}
+
+export const blogImage = (slug: string) => `/img/gen/blog-${slug}.jpg`;
