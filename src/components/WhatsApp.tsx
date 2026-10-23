@@ -54,6 +54,8 @@ export default function WhatsApp() {
     };
     const onClick = (e: MouseEvent) => {
       const n = e.target as Node;
+      // the mobile bar button toggles via driova:wa-toggle; don't treat it as an outside click
+      if ((n as Element).closest?.("[data-wa-open]")) return;
       if (openRef.current && !panel.current?.contains(n) && !fab.current?.contains(n)) setOpen(false);
     };
     const onToggle = () => setOpen((v) => !v); // fired by the mobile bottom bar

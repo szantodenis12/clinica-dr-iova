@@ -7,7 +7,7 @@
   .nav{top:0;left:0;right:0;height:62px;border-radius:0;padding:0 10px 0 16px;border:0;border-bottom:1px solid rgba(13,22,45,.06);
     background:rgba(255,255,255,.86)}
   .nav.is-scrolled{background:rgba(255,255,255,.94);box-shadow:0 6px 24px rgba(13,22,45,.06)}
-  .nav-burger{width:42px;height:42px}
+  .nav-burger{width:44px;height:44px}
   .nav.is-open ul{top:62px;border-radius:0 0 20px 20px;padding:6px 20px 14px}
   .page-inner main{padding-top:84px}
 
@@ -24,12 +24,12 @@
   .page-home .mbar:not(.is-on){transform:translateY(130%);opacity:0}
   .page-programare .mbar{display:none}
   .site:not(.page-programare) .wa-fab{display:none}
-  .wa-panel{bottom:86px}
-  .site:not(.page-admin) footer{padding-bottom:100px}
-  .ck{bottom:84px}
+  .wa-panel{bottom:calc(86px + env(safe-area-inset-bottom,0px));max-height:calc(100dvh - 162px - env(safe-area-inset-bottom,0px))}
+  .site:not(.page-admin) footer{padding-bottom:calc(100px + env(safe-area-inset-bottom,0px))}
+  .ck{bottom:calc(86px + env(safe-area-inset-bottom,0px));max-height:calc(100dvh - 160px - env(safe-area-inset-bottom,0px))}
 
   /* ---- hero: exactly one screen; text on top, Dr. Iova fills the rest ---- */
-  html,body{overflow-x:hidden}
+  html,body{overflow-x:hidden;overflow-x:clip} /* clip where supported: hidden on both html+body makes body a scroll container and breaks position:sticky */
   .page-home .hero{overflow:hidden}
   .page-home .hero-frame{width:100%}
   .page-home .hero-inner{position:relative;z-index:2}
@@ -87,3 +87,118 @@
   .prog-stage .step.is-active{display:block}
 }
 @media (max-width:700px) and (prefers-reduced-motion:reduce){.mbar{transition:none}}
+
+/* =====================================================================================================
+   Mobile/tablet pass 23.10.2026 (see MOBILE-CHANGES.md). CSS only, all rules <= 1024px: desktop untouched.
+   ===================================================================================================== */
+
+/* ---- phones + tablets ---- */
+@media (max-width:1024px){
+  /* these sections carry an inline style="padding:0" in the markup (meant to cancel section padding-top),
+     which also removed their side gutter: text and cards touched the screen edge */
+  .ways,.contact-photos,.answer,.two,.cas-steps,.docs,.cas-faq,.story,.team-sum,.founder,.values,.space,.reviews-link,.featured,.blog-note{padding-left:var(--pad)!important;padding-right:var(--pad)!important}
+  /* blurred background brains stick out of the viewport: clip them inside their section */
+  .page-home #specialitati,.page-home #recenzii,.page-home #clinica,.page-home .faq-sec{overflow-x:clip}
+  /* carousel arrows: 96x150 pills are desktop-sized */
+  .arrows button{width:64px;height:64px}
+  .arrows.sm button{width:64px;height:56px}
+  /* single-column step cards: no empty block under the text */
+  .page-home .steps .step{min-height:0}
+  .page-home .steps .step .foot{margin-top:10px}
+  /* doctor hub cards: full names instead of "Dr. Adriana Mati..." */
+  .md-card h3,.md-card .role{white-space:normal;text-overflow:clip;text-wrap:balance}
+  .md-card .info{min-height:0}
+  .page-home .dcard .role{white-space:normal}
+  /* booking step labels: only the current one (the others were cut to "Dată și in...") */
+  .prog-steps li span{display:none}
+  .prog-steps li.is-current span{display:block}
+  .prog-steps{grid-template-columns:repeat(6,auto);justify-content:space-between}
+  /* service page section chips: 44px tap height */
+  .toc li a{padding:13px 16px!important}
+}
+
+/* ---- tablet portrait (701-1024): hero copy readable next to the doctor ---- */
+@media (min-width:701px) and (max-width:1024px){
+  .page-home .hero-doc{height:76%;right:-12%}
+  .page-home .hero .bottom p{max-width:54%}
+  .page-home .stats{gap:10px}
+  .page-home .stats>div{background:rgba(13,22,45,.3);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-radius:12px;padding:10px 14px}
+}
+
+/* ---- doctors: native swipe row with snap + peek (phones, and touch tablets); the auto-slide is neutralised ---- */
+@media (max-width:700px),(max-width:1024px) and (hover:none){
+  .marq{overflow-x:auto;overscroll-behavior-x:contain;scroll-snap-type:x mandatory;scroll-padding-inline:var(--pad);scrollbar-width:none;
+    -webkit-mask-image:none;mask-image:none;padding:4px 0 12px}
+  .marq::-webkit-scrollbar{display:none}
+  .marq-track{transform:none!important;transition:none!important;padding:0 var(--pad);gap:12px}
+  .marq .is-clone{display:none}
+}
+
+/* ---- phones ---- */
+@media (max-width:700px){
+  /* type: fluid, same tight look */
+  .h2,.page-home .h2{font-size:clamp(28px,8.2vw,34px)}
+  .phead h1{font-size:clamp(34px,10.4vw,44px)}
+  .about-hero h1,.cas-hero h1,.blog-head h1{font-size:clamp(32px,9.8vw,40px)}
+
+  /* vertical rhythm: one step (64px) between sections everywhere */
+  .page-inner section{padding-top:64px}
+  .story,.team-sum,.founder,.values,.space,.reviews-link,.ways,.contact-photos,.two,.cas-steps,.docs,.cas-faq{margin-top:64px}
+  .related,.hub-groups{margin-top:64px}
+  .sec-head{margin-bottom:32px}
+  .page-home .banner{margin-top:64px}
+  .cta-band,.page-inner .cta-band{margin:64px auto}
+  footer.ft{padding-top:56px}
+  .ft-top{padding-bottom:40px;gap:32px}
+  .ft-cols{padding:36px 0 24px}
+
+  /* hero: stats were white text on the pale glass strip */
+  .page-home .stats{color:var(--ink)}
+  .page-home .stats span{opacity:.7}
+
+  /* homepage cards: shorter, so one card + the next one's edge fit the screen */
+  .page-home .pcard{aspect-ratio:320/420}
+  .page-home .dcard{flex:0 0 min(76vw,320px)}
+  .md-mini{scroll-snap-align:start}
+  .md-others{scroll-snap-type:x mandatory}
+  .md-mini .n small{white-space:normal}
+
+  /* tap targets >= 44px */
+  .logo{padding:7px 0;margin:-7px 0}
+  .ft-logo{padding:3px 0;margin:-3px 0}
+  .crumbs a{display:inline-block;padding:14px 0;margin:-14px 0}
+  .ck .row button{height:44px}
+  .blog-filters button{height:44px}
+  .map .pin{min-height:44px}
+  .crow a,.ft-row a,.side-contact a{display:inline-block;padding:12px 0;margin:-12px 0}
+  .ft-cols ul{gap:0}
+  .ft-cols a{display:inline-flex;align-items:center;min-height:44px}
+  .flegal nav{gap:0 22px}
+  .flegal nav a,.flegal nav button{display:inline-flex;align-items:center;min-height:44px}
+  .flegal .made{min-height:44px}
+  .tcard ul{gap:0}
+  .tcard ul a{min-height:44px}
+  .cal-nav{width:44px;height:44px}
+  .art-toc .tools{gap:0 16px}
+  .art-toc .tools a{min-height:44px}
+
+  /* booking wizard: actions dock to the bottom of the screen while the form scrolls (back = icon button);
+     the WhatsApp button and panel sit above that bar instead of on the "Continuați" button */
+  .page-programare .prog-actions{position:sticky;bottom:0;z-index:5;flex-direction:row;align-items:center;gap:8px;
+    margin:24px -16px -20px;padding:12px 16px calc(12px + env(safe-area-inset-bottom,0px));
+    background:rgba(255,255,255,.92);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-top:1px solid var(--line);border-radius:0 0 14px 14px}
+  .page-programare .prog-actions .btn{flex:1;padding:0 16px;justify-content:center}
+  .page-programare .prog-actions #btn-back{flex:0 0 48px;width:48px;padding:0;gap:0;font-size:0}
+  .page-programare .wa-fab{bottom:calc(88px + env(safe-area-inset-bottom,0px))}
+  .page-programare .wa-panel{bottom:calc(150px + env(safe-area-inset-bottom,0px));max-height:calc(100dvh - 226px - env(safe-area-inset-bottom,0px))}
+  .page-programare .ck{bottom:calc(12px + env(safe-area-inset-bottom,0px))}
+}
+
+/* ---- admin (its own phone layout starts at 900px): usable on a phone ---- */
+@media (max-width:900px){
+  .page-admin .top-actions{flex-wrap:nowrap}
+  .page-admin .search{flex:1 1 auto;min-width:0;width:auto;height:44px}
+  .page-admin .search input{font-size:16px}
+  .page-admin .adm-main .tbtn{height:44px;min-width:44px;justify-content:center}
+  .page-admin .adm-user button{width:44px;height:44px}
+}

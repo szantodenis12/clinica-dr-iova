@@ -148,7 +148,7 @@
   .md-mini{flex:0 0 46%}
   .md-notes{grid-template-columns:1fr}
   .md-filters{margin-top:24px}
-  .md-filters button{height:40px;padding:0 14px;font-size:12px}
+  .md-filters button{height:44px;padding:0 14px;font-size:12px}
 }
 
 /* other-doctors strip v2 (Roland 21.10: "feeling bad"): same language as the homepage doctor cards,
