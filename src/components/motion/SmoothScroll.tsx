@@ -22,6 +22,18 @@ const subscribeReduced = (cb: () => void) => {
   return () => mq.removeEventListener("change", cb);
 };
 
+/**
+ * Touch-first devices (phones, tablets, and Chrome DevTools mobile emulation) keep pure native scroll.
+ * Lenis only smooths the wheel, which is useless on touch, and in DevTools emulation (devicePixelRatio > 1)
+ * the emulated wheel `deltaY` arrives divided by the DPR, so Lenis crawled at 1/3 speed on a 3x phone profile.
+ */
+const COARSE_QUERY = "(hover: none) and (pointer: coarse)";
+const subscribeCoarse = (cb: () => void) => {
+  const mq = window.matchMedia(COARSE_QUERY);
+  mq.addEventListener("change", cb);
+  return () => mq.removeEventListener("change", cb);
+};
+
 /** Find the element a hash points to ("#ce-este", "#recenzii"). */
 function hashTarget(hash: string) {
   const id = decodeURIComponent(hash.replace(/^#/, ""));
@@ -30,7 +42,7 @@ function hashTarget(hash: string) {
 
 /**
  * Global smooth scroll (root layout). House setup shared with merci-bistro / constructii-marcut:
- *  - Lenis lerp 0.075 (merci), wheel only: touch devices keep native scroll (no syncTouch, like both refs)
+ *  - Lenis lerp 0.075 (merci), wheel only; touch / coarse-pointer devices skip Lenis entirely (native scroll)
  *  - driven by the GSAP ticker, `lenis.on("scroll", ScrollTrigger.update)`, lagSmoothing(0)
  *  - same-page anchor links go through Lenis with the fixed-nav offset (marcut), cross-page hashes are
  *    resolved after the new page paints
@@ -41,7 +53,8 @@ export default function SmoothScroll({ children }: { children: ReactNode }) {
   const pathname = usePathname();
   const isAdmin = pathname.startsWith("/admin");
   const reduced = useSyncExternalStore(subscribeReduced, () => window.matchMedia(REDUCED_MOTION_QUERY).matches, () => true);
-  const enabled = !isAdmin && !reduced;
+  const coarse = useSyncExternalStore(subscribeCoarse, () => window.matchMedia(COARSE_QUERY).matches, () => false);
+  const enabled = !isAdmin && !reduced && !coarse;
   const lenis = useSyncExternalStore(subscribeLenis, getLenis, () => null);
 
   useEffect(() => {
