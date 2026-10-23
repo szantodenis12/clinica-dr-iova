@@ -39,7 +39,9 @@
   .page-home .hero-inner{flex:none;padding:92px var(--pad) 0}
   .page-home .hero .bottom{display:none}
   .page-home .hero h1{font-size:11.6vw}
-  .page-home .hero-doc{order:2;flex:none;height:max(420px,calc(100svh - 230px));margin-top:-100px!important;z-index:0;position:relative;width:100%;margin:14px 0 0;filter:none}
+  .page-home .hero-doc{order:2;flex:none;--dh:max(420px,calc(100svh - 230px));height:var(--dh);margin-top:calc(22px - var(--dh) * .153)!important;z-index:0;position:relative;width:100%;margin:14px 0 0;filter:none}
+  /* no parallax drift on phones: text must not slide over the face */
+  .page-home .hero-doc,.page-home .hero-inner,.page-home .stats{translate:none!important}
   .page-home .hero-doc img{position:absolute;bottom:0;left:50%;height:100%;width:auto;max-width:none;transform:translateX(-34%);
     filter:drop-shadow(0 24px 40px rgba(13,22,45,.18))}
   .page-home .stats{order:3;margin:0;padding:26px var(--pad) 30px;background:rgba(255,255,255,.55);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
@@ -60,10 +62,10 @@
   .track>*,.gal>*{scroll-snap-align:start}
 
   /* services: 2-column tiles instead of 12 full-width rows */
-  #specialitati .grid4{grid-template-columns:1fr 1fr;gap:10px}
-  .spec{flex-direction:column;align-items:flex-start;justify-content:space-between;gap:14px;padding:14px;min-height:120px;font-size:15px;line-height:1.2}
-  .spec .ic{width:44px;height:44px;border-radius:10px}
-  .spec .ic svg{width:22px;height:22px}
+  #specialitati .grid4{grid-template-columns:1fr 1fr;gap:8px}
+  .spec{flex-direction:row;align-items:center;justify-content:flex-start;gap:10px;padding:12px;min-height:64px;font-size:14px;line-height:1.2;letter-spacing:-.01em}
+  .spec .ic{width:38px;height:38px;border-radius:10px}
+  .spec .ic svg{width:20px;height:20px}
 
   /* "Gândită pentru pacient": 2-column chips */
   .pills,.page-home .grid4:has(> .pill){grid-template-columns:1fr 1fr;gap:10px}

@@ -133,3 +133,19 @@ footer.ft{padding-top:56px}
 .page-admin .adm-user button{width:44px;height:44px}
 ```
 The search field and the three toolbar buttons now fit on one row; before, the "+" button wrapped alone onto a second row. The 16px input font stops iOS from zooming on focus. Logout and toolbar buttons are 44px.
+
+## 4. Homepage services grid and hero (phones, <=700px, `src/styles/mobile.css` only)
+
+Services grid (`#specialitati`, the `.spec` cards; only the homepage uses `.spec`): the cards are now compact tiles. Still 2 columns, icon box 38px on the left, label on the right and vertically centered, 12px padding, 64px min-height, 8px gaps, 14px label with 1.2 line-height. Grid height at 390px: 772px down to 424px.
+```css
+#specialitati .grid4{grid-template-columns:1fr 1fr;gap:8px}
+.spec{flex-direction:row;align-items:center;justify-content:flex-start;gap:10px;padding:12px;min-height:64px;font-size:14px;line-height:1.2;letter-spacing:-.01em}
+.spec .ic{width:38px;height:38px;border-radius:10px}
+.spec .ic svg{width:20px;height:20px}
+```
+Hero: the cutout no longer starts behind the buttons. Its top margin is now computed so the head starts about 22px below the buttons (0.153 is the share of the PNG height that is transparent above the hair), and the hero parallax drift is off on phones, so the text cannot slide over the face.
+```css
+.page-home .hero-doc{...;--dh:max(420px,calc(100svh - 230px));height:var(--dh);margin-top:calc(22px - var(--dh) * .153)!important;...}
+.page-home .hero-doc,.page-home .hero-inner,.page-home .stats{translate:none!important}
+```
+Desktop (>=1025px) is unchanged (pixel diff 0). 701-1024 is untouched: the base 2-column cards with a 96px icon already sit icon-left.
