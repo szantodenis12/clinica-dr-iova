@@ -355,7 +355,7 @@ export default function ConfidentialitatePage() {
         </div>
       </div>
 
-      <section className="cta-band">
+      <section className="cta-band" data-parallax="0.12" data-parallax-prop="--wm">
         <div className="in" data-reveal="scale">
           <div>
             <h2>Întrebări despre datele dumneavoastră?</h2>

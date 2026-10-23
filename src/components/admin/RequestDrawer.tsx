@@ -35,7 +35,7 @@ export default function RequestDrawer({ drawer }: { drawer: DrawerState }) {
   return (
     <>
       <div className={"drawer-bg" + (on ? " is-open" : "")} id="drawer-bg" hidden={!shown} onClick={closeDrawer}></div>
-      <aside className={"drawer" + (on ? " is-open" : "")} id="drawer" role="dialog" aria-modal="true" aria-labelledby="dr-title" hidden={!shown}>
+      <aside className={"drawer" + (on ? " is-open" : "")} id="drawer" data-lenis-prevent="" role="dialog" aria-modal="true" aria-labelledby="dr-title" hidden={!shown}>
         <header className="dr-head">
           <div>
             <span className="dr-ref" id="dr-ref">{r ? r.ref + " · trimisă " + fmtTime(r.createdAt) : ""}</span>

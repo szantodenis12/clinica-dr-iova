@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import Icon from "./Icon";
+import { lockScroll } from "@/lib/motion";
 
 const LINKS = [
   ["/", "Acasă"],
@@ -28,6 +29,20 @@ export default function Nav() {
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
+  // mobile menu open: freeze the page behind it (lenis.stop + overflow hidden), Escape closes it
+  useEffect(() => {
+    if (!open) return;
+    lockScroll(true);
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setOpenPath(null);
+    };
+    document.addEventListener("keydown", onKey);
+    return () => {
+      lockScroll(false);
+      document.removeEventListener("keydown", onKey);
+    };
+  }, [open]);
 
   return (
     <nav className={`nav${scrolled ? " is-scrolled" : ""}${open ? " is-open" : ""}`} aria-label="Navigare principală">

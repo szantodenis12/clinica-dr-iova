@@ -34,9 +34,9 @@ export default function DesprePage() {
       <JsonLd data={aboutSchema} />
 
       <header className="about-hero">
-        <div data-reveal="">
-          <div className="kicker">Despre clinică</div>
-          <h1>
+        <div>
+          <div className="kicker" data-reveal="fade">Despre clinică</div>
+          <h1 data-reveal="lines">
             Trei generații.
             <br />
             Nevoi diferite.
@@ -74,7 +74,7 @@ export default function DesprePage() {
           <img
             src="/img/about-hero.jpg"
             alt="Echipa Clinicii Dr. Iova, în fața peretelui verde de la recepție"
-            data-parallax="0.08"
+            data-parallax-img=""
           />
         </div>
       </div>
@@ -404,7 +404,7 @@ export default function DesprePage() {
         </div>
       </section>
 
-      <section className="cta-band">
+      <section className="cta-band" data-parallax="0.12" data-parallax-prop="--wm">
         <div className="in" data-reveal="scale">
           <div>
             <h2>Programare la Clinica Dr. Iova</h2>

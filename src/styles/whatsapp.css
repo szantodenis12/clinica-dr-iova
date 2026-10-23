@@ -43,3 +43,4 @@
   .wa-fab{opacity:1;transform:none}
 }
 body.page-admin .wa-fab,body.page-admin .wa-panel,.wa-panel[hidden]{display:none!important}
+.wa-panel{max-height:calc(100dvh - 112px);overflow-y:auto;overscroll-behavior:contain}

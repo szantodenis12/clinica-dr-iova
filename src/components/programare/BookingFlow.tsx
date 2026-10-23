@@ -5,6 +5,7 @@ import { flushSync } from "react-dom";
 import Link from "next/link";
 import Icon from "@/components/Icon";
 import { waLink } from "@/lib/whatsapp";
+import { scrollToTarget } from "@/lib/motion";
 import {
   DOCTORS,
   MONTHS,
@@ -221,8 +222,9 @@ export default function BookingFlow() {
     h2Refs.current[cur]?.focus({ preventScroll: true });
     const root = rootRef.current;
     if (root) {
+      // Lenis-aware (smooth with Lenis, native otherwise; instant for reduced motion)
       const top = root.getBoundingClientRect().top + window.scrollY - 90;
-      if (window.scrollY > top + 10) window.scrollTo({ top, behavior: reduceRef.current ? "auto" : "smooth" });
+      if (window.scrollY > top + 10) scrollToTarget(root, { offset: 90, immediate: reduceRef.current, duration: 0.9 });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [nav]);
@@ -293,7 +295,7 @@ export default function BookingFlow() {
     if (!doneReq) return;
     const raf = requestAnimationFrame(() => setIsIn(true));
     const root = rootRef.current;
-    if (root) window.scrollTo({ top: root.getBoundingClientRect().top + window.scrollY - 100, behavior: reduceRef.current ? "auto" : "smooth" });
+    if (root) scrollToTarget(root, { offset: 100, immediate: reduceRef.current, duration: 0.9 });
     doneH2Ref.current?.focus({ preventScroll: true });
     return () => cancelAnimationFrame(raf);
   }, [doneReq]);

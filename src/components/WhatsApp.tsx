@@ -71,7 +71,7 @@ export default function WhatsApp() {
   if (hidden) return null;
   return (
     <>
-      <div className={`wa-panel${open ? " is-open" : ""}`} id="wa-panel" role="dialog" aria-label="WhatsApp Clinica Dr. Iova" ref={panel}>
+      <div className={`wa-panel${open ? " is-open" : ""}`} id="wa-panel" data-lenis-prevent="" role="dialog" aria-label="WhatsApp Clinica Dr. Iova" ref={panel}>
         <div className="wa-head">
           <h3>Scrieți-ne pe WhatsApp</h3>
           <p>Răspundem în programul recepției, luni–vineri 08:00–20:00.</p>

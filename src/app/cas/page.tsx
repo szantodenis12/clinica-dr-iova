@@ -159,7 +159,7 @@ export default function CasPage() {
         Surse: Ordinul MS/CNAS nr. 1857/441/2023 (Normele Contractului-cadru), versiunea în vigoare de la 01.04.2025, Anexa 7 pct. 1.2.1–1.3.4 și Anexa 13 pct. 22; HG nr. 521/2023 (Contractul-cadru); lista furnizorilor CNAS, ambulatoriu clinic, 30.10.2024 (contract CAS Bihor nr. 1389); informații publicate de Clinica Dr. Iova (31.05.2026). Verificate la 21.10.2026. Regulile se pot modifica; pentru situația dumneavoastră, întrebați medicul de familie, CAS Bihor sau recepția.
       </div>
 
-      <section className="cta-band">
+      <section className="cta-band" data-parallax="0.12" data-parallax-prop="--wm">
         <div className="in" data-reveal="scale">
           <div>
             <h2>Programare prin CAS, la Clinica Dr. Iova</h2>

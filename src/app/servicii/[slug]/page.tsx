@@ -2,7 +2,6 @@ import { notFound } from "next/navigation";
 import "@/styles/servicii.css";
 import "@/styles/mobile.css"; // always last
 import { buildMetadata } from "@/lib/seo";
-import { getRoute } from "@/lib/routes";
 import { servicii } from "@/data/servicii";
 import ServiceTemplate from "@/components/servicii/ServiceTemplate";
 
@@ -17,10 +16,9 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const s = servicii.find((x) => x.slug === slug);
   if (!s) notFound();
   const path = `/servicii/${slug}/`;
-  const route = getRoute(path);
   return buildMetadata({
-    title: route.title,
-    description: route.description,
+    title: s.metaTitle,
+    description: s.metaDescription,
     path,
     ogImage: s.ogImage,
   });

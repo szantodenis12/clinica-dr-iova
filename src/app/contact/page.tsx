@@ -104,7 +104,7 @@ export default function ContactPage() {
         </div>
       </section>
 
-      <section className="cta-band">
+      <section className="cta-band" data-parallax="0.12" data-parallax-prop="--wm">
         <div className="in" data-reveal="scale">
           <div>
             <h2>Programare la Clinica Dr. Iova</h2>

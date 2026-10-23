@@ -189,7 +189,7 @@ export default function BlockDrawer({ pre, open }: { pre: Partial<Block>; open: 
   return (
     <>
       <div className={"drawer-bg" + (on ? " is-open" : "")} id="bd-bg" hidden={!shown} onClick={closeBlock}></div>
-      <aside className={"drawer bdrawer" + (on ? " is-open" : "")} id="bdrawer" role="dialog" aria-modal="true" aria-labelledby="bd-title" hidden={!shown}>
+      <aside className={"drawer bdrawer" + (on ? " is-open" : "")} id="bdrawer" data-lenis-prevent="" role="dialog" aria-modal="true" aria-labelledby="bd-title" hidden={!shown}>
         <header className="dr-head">
           <div><span className="dr-ref" id="bd-step">{step < 4 ? "Pasul " + step + " din 3" : "Verificați și confirmați"}</span>
             <h2 id="bd-title">{isAppt ? "Programare pacient" : b.id ? "Modificați blocarea" : "Blocați ore"}</h2>

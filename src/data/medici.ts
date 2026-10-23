@@ -7,6 +7,9 @@ export type ServiceSlug = "psihiatrie-adulti" | "psihiatrie-pediatrica" | "neuro
 
 export interface Doctor {
   slug: string;
+  /** <title> and og:title of /medici/<slug>/ (also feeds sitemap/llms.txt via lib/routes.ts) */
+  metaTitle: string;
+  metaDescription: string;
   h1: string;
   full: string;
   pre: string;
@@ -316,6 +319,8 @@ export const SOON: [string, string][] = [
 export const DOCTORS: Doctor[] = [
   {
     "slug": "sorin-iova",
+    "metaTitle": "Dr. Sorin Iova, medic primar psihiatru | Clinica Dr. Iova",
+    "metaDescription": "Dr. Sorin Iova, medic primar psihiatru, fondatorul Clinicii Dr. Iova din Oradea, șef de lucrări la Universitatea din Oradea. Consultații adulți, prin CAS.",
     "h1": "Dr. Sorin Iova",
     "full": "Șef lucr. Dr. Claudiu Sorin Iova",
     "pre": "Șef lucr. Dr.",
@@ -413,6 +418,8 @@ export const DOCTORS: Doctor[] = [
   },
   {
     "slug": "sebastian-macrea",
+    "metaTitle": "Dr. Sebastian Macrea, medic specialist psihiatru | Oradea",
+    "metaDescription": "Dr. Sebastian Macrea, medic specialist psihiatru la Clinica Dr. Iova din Oradea. Consultații pentru adulți, gratuite prin CAS cu bilet. Tel. 0359 450 657.",
     "h1": "Dr. Sebastian Macrea",
     "full": "Dr. Sebastian Macrea",
     "pre": "Dr.",
@@ -475,6 +482,8 @@ export const DOCTORS: Doctor[] = [
   },
   {
     "slug": "titus-moga",
+    "metaTitle": "Dr. Titus Moga, medic specialist neurolog | Clinica Dr. Iova",
+    "metaDescription": "Dr. Titus Moga, medic specialist neurolog și asistent universitar, la Clinica Dr. Iova din Oradea. Consultații gratuite prin CAS cu bilet de trimitere.",
     "h1": "Dr. Titus Moga",
     "full": "As. Univ. Dr. Titus Moga",
     "pre": "As. Univ. Dr.",
@@ -529,6 +538,8 @@ export const DOCTORS: Doctor[] = [
   },
   {
     "slug": "adriana-maties",
+    "metaTitle": "Dr. Adriana Maties, medic specialist psihiatru | Oradea",
+    "metaDescription": "Dr. Adriana Maties, medic specialist psihiatru la Clinica Dr. Iova din Oradea. Consultații pentru adulți, gratuite prin CAS cu bilet. Tel. 0359 450 657.",
     "h1": "Dr. Adriana Maties",
     "full": "Dr. Adriana Maties",
     "pre": "Dr.",
@@ -591,6 +602,8 @@ export const DOCTORS: Doctor[] = [
   },
   {
     "slug": "theodor-nicolau",
+    "metaTitle": "Dr. Theodor Nicolau, medic specialist psihiatru | Oradea",
+    "metaDescription": "Dr. Theodor Nicolau, medic specialist psihiatru la Clinica Dr. Iova din Oradea. Consultații pentru adulți, gratuite prin CAS cu bilet. Tel. 0359 450 657.",
     "h1": "Dr. Theodor Nicolau",
     "full": "Dr. Theodor Nicolau",
     "pre": "Dr.",
@@ -653,6 +666,8 @@ export const DOCTORS: Doctor[] = [
   },
   {
     "slug": "roxana-samuila",
+    "metaTitle": "Dr. Roxana Samuila, psihiatrie pediatrică | Oradea",
+    "metaDescription": "Dr. Roxana Samuila, medic specialist psihiatrie pediatrică la Clinica Dr. Iova, Oradea. Consultații copii și adolescenți, gratuite prin CAS cu bilet.",
     "h1": "Dr. Roxana Samuila",
     "full": "Dr. Roxana Samuila",
     "pre": "Dr.",
@@ -717,6 +732,8 @@ export const DOCTORS: Doctor[] = [
   },
   {
     "slug": "mihaela-caba",
+    "metaTitle": "Mihaela Caba, psiholog clinician, logoped | Clinica Dr. Iova",
+    "metaDescription": "Mihaela Caba, psiholog clinician și logoped la Clinica Dr. Iova din Oradea. Evaluări psihologice pentru copii și adulți, logopedie. Tel. 0359 450 657.",
     "h1": "Mihaela Caba",
     "full": "Psih. Mihaela Caba",
     "pre": "Psih.",

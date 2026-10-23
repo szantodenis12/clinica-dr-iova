@@ -75,7 +75,7 @@ export default function CookieConsent() {
 
   if (hidden) return null;
   return (
-    <div className={`ck${open ? " is-open" : ""}${showPrefs ? " show-prefs" : ""}`} role="dialog" aria-label="Setări cookie-uri">
+    <div className={`ck${open ? " is-open" : ""}${showPrefs ? " show-prefs" : ""}`} data-lenis-prevent="" role="dialog" aria-label="Setări cookie-uri">
       <h3>
         <Icon name="cookie" />
         Cookie-uri pe acest site

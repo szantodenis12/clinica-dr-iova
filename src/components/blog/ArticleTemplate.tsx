@@ -44,16 +44,16 @@ export default function ArticleTemplate({ post, Body }: { post: BlogPost; Body: 
 
       <header className="art-head">
         <div className="top">
-          <div data-reveal="">
-            <div className="bmeta">
+          <div>
+            <div className="bmeta" data-reveal="fade">
               <span className="cat" data-c={post.cat}>
                 {post.catLabel}
               </span>
               <span>Publicat {post.date}</span>
               <span>{post.readMin} min de citit</span>
             </div>
-            <h1>{post.title}</h1>
-            <div className="art-author">
+            <h1 data-reveal="lines">{post.title}</h1>
+            <div className="art-author" data-reveal="">
               <b>Echipa Clinicii Dr. Iova</b>
               <span className="todo">{post.authorNote}</span>
             </div>
@@ -63,7 +63,7 @@ export default function ArticleTemplate({ post, Body }: { post: BlogPost; Body: 
           </p>
         </div>
         <figure className="art-cover" data-reveal="mask">
-          <img src={blogImage(post.slug)} alt={post.coverAlt} data-parallax="0.08" />
+          <img src={blogImage(post.slug)} alt={post.coverAlt} data-parallax-img="" />
           <figcaption>{post.caption}</figcaption>
         </figure>
       </header>
@@ -125,7 +125,7 @@ export default function ArticleTemplate({ post, Body }: { post: BlogPost; Body: 
         </div>
       </section>
 
-      <section className="cta-band">
+      <section className="cta-band" data-parallax="0.12" data-parallax-prop="--wm">
         <div className="in" data-reveal="scale">
           <div>
             <h2>{post.cta.h2}</h2>

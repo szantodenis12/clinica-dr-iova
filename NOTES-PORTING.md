@@ -53,12 +53,12 @@
 `- Dynamic routes: use `generateMetadata` and call `buildMetadata` inside it.
 `
 `## 4. routes.ts (sitemap / llms.txt / robots)
-``src/lib/routes.ts` holds ALL 37 URLs of the original (path, title, description, `noindex`), already filled from the fragment metas.
-``sitemap.ts` and `llms.txt/route.ts` read it (noindex entries are skipped; `/admin/` is the only noindex one; robots disallows `/admin/`).
-`Porting a page: nothing to register unless the URL is new. For new URLs append an entry. Use `getRoute(path)` in the page so title/description stay in one place.
-`If you generate dynamic routes (blog posts, doctors) make sure each one has an entry (or derive entries from the data file and spread them into `routes`).
-`
-`## 5. Page wrapper class ("body class")
+`src/lib/routes.ts` holds the 37 URLs (path, title, description, `noindex`). Static pages are hardcoded in `staticRoutes`;
+`/blog/<slug>/`, `/medici/<slug>/` and `/servicii/<slug>/` are DERIVED from `src/data/{blog,medici,servicii}.ts` (metaTitle / metaDescription), sorted by path.
+`sitemap.ts` and `llms.txt/route.ts` read it (noindex entries are skipped; `/admin/` is the only noindex one; robots disallows `/admin/`).
+Static page: use `getRoute(path)` in the page. A new static URL needs an entry in `staticRoutes`. Data files must never import `routes.ts` (circular).
+
+## 5. Page wrapper class ("body class")
 `The original `<body class="{{body_class}}">` is replaced by a wrapper `<div class="site page-xxx">` (`components/SiteShell.tsx`) around nav/main/footer/widgets.
 `The class is derived from the pathname in `src/lib/body-class.ts` (`/` -> `page-home`, `/admin*` -> `page-admin`, `/programare*` -> `page-inner page-programare`,
 `everything else `page-inner`), so it is correct in server HTML. If a fragment has a special `body_class`, add a rule in `bodyClassFor()`.
@@ -98,7 +98,7 @@
 `Recommended: `src/data/medici.ts`, `src/data/servicii.ts`, `src/data/blog.ts` (typed arrays: slug, title, description, breadcrumb, hero fields, sections...), then
 ``src/app/medici/[slug]/page.tsx` with `generateStaticParams()` (from the data) and `generateMetadata()` using `buildMetadata`. The index page maps the same data to cards
 `(the homepage doctor/service cards currently use local consts in `src/app/page.tsx`; switch them to the shared data when it exists).
-`Keep a `routes.ts` entry per slug (or derive: `...doctors.map(d => ({path: \`/medici/${d.slug}/\`, ...}))` spread into `routes`).
+`routes.ts derives the per-slug entries from the data (see "How to add" below), nothing to register by hand.
 `Generator scripts (`_gen_*.py`) show the structure of the fragments; port their data, not their HTML strings. Long article bodies may live as JSX per post or as structured blocks;
 `either way no `dangerouslySetInnerHTML`.
 `
@@ -108,3 +108,11 @@
 `3. Body copy 1:1 (use `\u2011` for `&#8209;`, `{" "}` for significant spaces, `<br />`).
 `4. Compare structure with `site/<path>/index.html` (tags/classes), run `npm run build` (must pass type-check) and `npx eslint`.
 `5. Don't edit shared files (`layout.tsx`, `base.css`, `Icon.tsx` additions excepted) without noting it in your report.
+
+## 12. How to add an article / doctor / service (single source)
+Metadata (title/description) lives ONLY in the data file; routes, sitemap.xml, llms.txt and generateMetadata all read from it. Never edit `routes.ts` for these.
+- **Article**: add an object to `blogPosts` in `src/data/blog.ts` (incl. `metaTitle`, `metaDescription`), put the body in `src/content/blog/<slug>.tsx` and register it in `blogBodies` (`src/content/blog/index`), add the cover `public/img/gen/blog-<slug>.jpg`.
+- **Doctor**: add an object to `DOCTORS` in `src/data/medici.ts` (incl. `metaTitle`, `metaDescription`), photo `public/img/trim/<slug>.png`. Booking flow: also add a doctor to `DOCTORS` in `src/data/programare.ts` (separate list, see below).
+- **Service**: add an object to `servicii` in `src/data/servicii.ts` (incl. `metaTitle`, `metaDescription`), body in `src/content/servicii/<slug>.tsx`; add its slug/label to `ServiceSlug`/`SERV` in `medici.ts` and `relCards` if it is linked from doctors/other services. Booking: add to `SERVICES` in `programare.ts`.
+- `programare.ts` (booking + admin) keeps its own DOCTORS/SERVICES: it is bundled client-side and importing `medici.ts` (FAQs, timelines) would bloat it; names also differ slightly (Sorin Iova full name, Caba short, "port armă" vs "port-armă").
+- Check: `npx tsc --noEmit`, then compare sitemap.xml / llms.txt on the dev server.

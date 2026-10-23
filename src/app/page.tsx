@@ -69,7 +69,7 @@ function DoctorCard({ d, clone }: { d: (typeof doctors)[number]; clone?: boolean
       {...(clone ? { "aria-hidden": true, tabIndex: -1 } : {})}
     >
       <span className="tag">{d.tag}</span>
-      <img src={`/img/${d.slug}.png`} alt="" />
+      <img src={`/img/${d.slug}.png`} alt="" data-parallax="0.04" />
       <div className="info">
         <h3>{d.name}</h3>
         <div className="role">{d.role}</div>
@@ -119,8 +119,8 @@ export default function HomePage() {
       <HeroEntrance />
 
       {/* ================= HERO ================= */}
-      <header className="hero" id="acasa">
-        <div className="hero-bg" aria-hidden="true">
+      <header className="hero" id="acasa" data-parallax-root="top">
+        <div className="hero-bg" aria-hidden="true" data-parallax="0.22">
           <span className="blob b1"></span>
           <span className="blob b2"></span>
           <span className="blob b3"></span>
@@ -128,10 +128,10 @@ export default function HomePage() {
           <span className="beam"></span>
         </div>
         <div className="hero-frame">
-          <div className="hero-doc">
+          <div className="hero-doc" data-parallax="0.07">
             <img src="/img/sorin-iova.png" alt="Șef lucr. Dr. Sorin Iova, medic primar psihiatru" />
           </div>
-          <div className="hero-inner">
+          <div className="hero-inner" data-parallax="-0.08" data-parallax-fade="0.35">
             <div className="eyebrow">Clinică pentru copii și adulți · Oradea</div>
             <h1>
               <span className="row"><span className="ln">Psihiatrie,</span></span>
@@ -150,7 +150,7 @@ export default function HomePage() {
               <p>Psihiatrie pentru adulți și copii, neurologie, psihologie clinică și logopedie, la aceeași recepție din Oradea. Cu bilet de trimitere, consultațiile sunt gratuite prin CAS.</p>
             </div>
           </div>
-          <div className="stats">
+          <div className="stats" data-parallax="-0.05">
             <div><b><span data-stat="500">500</span>+</b><span>Pacienți consultați lunar</span></div>
             <div><b><span data-stat="400">400</span>+</b><span>Evaluări psihologice lunar</span></div>
             <div><b><span data-stat="5">5</span></b><span>Specialități</span></div>
@@ -163,10 +163,10 @@ export default function HomePage() {
       <section id="servicii">
         <div className="wrap">
           <div className="sec-head">
-            <div data-reveal="">
-              <h2 className="h2">Trei generații. Nevoi diferite.<br />O singură clinică.</h2>
-              <p className="lead">La Clinica Dr. Iova, reunim specialiști în psihiatria copilului și a adultului, neurologie, psihologie clinică și logopedie.</p>
-              <p className="lead">O echipă multidisciplinară, cu servicii de evaluare și îngrijire adaptate fiecărei etape a vieții.</p>
+            <div>
+              <h2 className="h2" data-reveal="lines">Trei generații. Nevoi diferite.<br />O singură clinică.</h2>
+              <p className="lead" data-reveal="">La Clinica Dr. Iova, reunim specialiști în psihiatria copilului și a adultului, neurologie, psihologie clinică și logopedie.</p>
+              <p className="lead" data-reveal="">O echipă multidisciplinară, cu servicii de evaluare și îngrijire adaptate fiecărei etape a vieții.</p>
             </div>
             <Arrows forId="t1" />
           </div>
@@ -175,7 +175,7 @@ export default function HomePage() {
           <div className="track" id="t1" data-stagger="">
             {services.map(([href, img, h, p]) => (
               <Link key={href} className="pcard" href={href}>
-                <img src={`/img/gen/${img}`} alt="" />
+                <img src={`/img/gen/${img}`} alt="" data-parallax-img="" />
                 <div className="t"><h3>{h}</h3><p>{p}</p></div>
               </Link>
             ))}
@@ -188,9 +188,9 @@ export default function HomePage() {
         <span className="bgb b-a" data-parallax="0.25" aria-hidden="true"><i></i><img src="/img/gen/brain.png" alt="" /></span>
         <div className="wrap">
           <div className="sec-head">
-            <div data-reveal="">
-              <h2 className="h2">Ce puteți face<br />la Clinica Dr. Iova</h2>
-              <p className="lead">Consultații, evaluări și terapii pentru copii și adulți. Recepția vă spune la ce medic să mergeți.</p>
+            <div>
+              <h2 className="h2" data-reveal="lines">Ce puteți face<br />la Clinica Dr. Iova</h2>
+              <p className="lead" data-reveal="">Consultații, evaluări și terapii pentru copii și adulți. Recepția vă spune la ce medic să mergeți.</p>
             </div>
             <div className="sec-cta" data-reveal="">
               <Link className="btn btn-dark" href="/programare/"><Icon name="calendar" />Programare</Link>
@@ -212,9 +212,9 @@ export default function HomePage() {
       <section id="medici">
         <div className="wrap">
           <div className="sec-head">
-            <div data-reveal="">
-              <h2 className="h2">Medicii<br />clinicii</h2>
-              <p className="lead">Medici primari și specialiști, cadre universitare și psihologi clinicieni.</p>
+            <div>
+              <h2 className="h2" data-reveal="lines">Medicii<br />clinicii</h2>
+              <p className="lead" data-reveal="">Medici primari și specialiști, cadre universitare și psihologi clinicieni.</p>
             </div>
             <Link className="btn btn-line" href="/medici/" data-reveal="">Toți medicii<Icon name="arrow-right" /></Link>
           </div>
@@ -233,7 +233,7 @@ export default function HomePage() {
       <section>
         <div className="wrap">
           <div className="sec-head" style={{ marginBottom: 40 }}>
-            <h2 className="h2" data-reveal="">Gândită pentru pacient<br />și pentru familie</h2>
+            <h2 className="h2" data-reveal="lines">Gândită pentru pacient<br />și pentru familie</h2>
           </div>
           <div className="grid4" data-stagger="">
             {pills.map(([icon, label]) => (
@@ -248,9 +248,9 @@ export default function HomePage() {
         <span className="bgb b-b" data-parallax="0.2" aria-hidden="true"><i></i><img src="/img/gen/brain.png" alt="" /></span>
         <div className="wrap">
           <div className="sec-head">
-            <div data-reveal="">
-              <h2 className="h2">Ce apreciază pacienții,<br />pe Google</h2>
-              <p className="lead">Nu preluăm recenziile pacienților pe site, din respect pentru confidențialitate. Le puteți citi direct pe Google. Mai jos sunt temele care revin cel mai des.</p>
+            <div>
+              <h2 className="h2" data-reveal="lines">Ce apreciază pacienții,<br />pe Google</h2>
+              <p className="lead" data-reveal="">Nu preluăm recenziile pacienților pe site, din respect pentru confidențialitate. Le puteți citi direct pe Google. Mai jos sunt temele care revin cel mai des.</p>
             </div>
           </div>
           <div className="rev">
@@ -285,7 +285,7 @@ export default function HomePage() {
       <section id="programare">
         <div className="wrap">
           <div className="sec-head">
-            <h2 className="h2" data-reveal="">Programarea,<br />în trei pași</h2>
+            <h2 className="h2" data-reveal="lines">Programarea,<br />în trei pași</h2>
             <div className="sec-cta" data-reveal="">
               <Link className="btn btn-dark" href="/programare/"><Icon name="calendar" />Programare online</Link>
               <Link className="btn btn-line" href="/cas/"><Icon name="book-open" />Ghid CAS</Link>
@@ -308,18 +308,18 @@ export default function HomePage() {
         <span className="bgb b-c" data-parallax="0.25" aria-hidden="true"><i></i><img src="/img/gen/brain.png" alt="" /></span>
         <div className="wrap">
           <div className="sec-head">
-            <h2 className="h2" data-reveal="">Un spațiu luminos,<br />cu cabinete separate</h2>
+            <h2 className="h2" data-reveal="lines">Un spațiu luminos,<br />cu cabinete separate</h2>
             <Arrows forId="t3" small />
           </div>
         </div>
         <div className="wrap" style={{ paddingRight: 0 }}>
           <div className="gal" id="t3" data-stagger="">
-            <div className="img-zoom"><img src="/img/Image4.jpg" alt="Recepția clinicii" /></div>
+            <div className="img-zoom"><img src="/img/Image4.jpg" alt="Recepția clinicii" data-parallax-img="" /></div>
             <div className="blob">Pe strada Ceyrat,<br />din 2025</div>
-            <div className="img-zoom"><img src="/img/Image2.jpg" alt="Sala de așteptare" /></div>
-            <div className="img-zoom"><img src="/img/Image8.jpeg" alt="" /></div>
-            <div className="img-zoom"><img src="/img/Image5.jpeg" alt="" /></div>
-            <div className="img-zoom"><img src="/img/Image10.jpeg" alt="" /></div>
+            <div className="img-zoom"><img src="/img/Image2.jpg" alt="Sala de așteptare" data-parallax-img="" /></div>
+            <div className="img-zoom"><img src="/img/Image8.jpeg" alt="" data-parallax-img="" /></div>
+            <div className="img-zoom"><img src="/img/Image5.jpeg" alt="" data-parallax-img="" /></div>
+            <div className="img-zoom"><img src="/img/Image10.jpeg" alt="" data-parallax-img="" /></div>
           </div>
         </div>
       </section>
@@ -328,7 +328,7 @@ export default function HomePage() {
       <section className="faq-sec">
         <span className="bgb b-d" data-parallax="0.2" aria-hidden="true"><i></i><img src="/img/gen/brain.png" alt="" /></span>
         <div className="wrap faq">
-          <h2 className="h2" data-reveal="">Întrebări<br />frecvente</h2>
+          <h2 className="h2" data-reveal="lines">Întrebări<br />frecvente</h2>
           <div data-stagger="">
             <details><summary>Cum fac o programare?<Icon name="chevron-down" /></summary><p>Online, din pagina <Link href="/programare/">Programare</Link>, sau telefonic la recepție, 0359 450 657, de luni până vineri între 08:00 și 20:00. Puteți scrie și la receptie@clinicadriova.ro.</p></details>
             <details><summary>Consultația este gratuită prin CAS?<Icon name="chevron-down" /></summary><p>Da, dacă veniți cu bilet de trimitere. Clinica are contract cu CAS Bihor. Fără bilet, consultația se plătește.</p></details>
@@ -342,11 +342,11 @@ export default function HomePage() {
 
       {/* ================= BANNER ================= */}
       <div className="banner">
-        <img src="/img/about-hero.jpg" alt="Echipa Clinicii Dr. Iova" data-parallax="0.08" />
+        <img src="/img/about-hero.jpg" alt="Echipa Clinicii Dr. Iova" data-parallax-img="7" />
         <div className="in">
-          <div data-reveal="">
-            <h2>Puteți suna<br />și doar pentru<br />o întrebare.</h2>
-            <p>Recepția vă spune la ce medic să mergeți, ce acte vă trebuie și când este primul loc liber.</p>
+          <div>
+            <h2 data-reveal="lines">Puteți suna<br />și doar pentru<br />o întrebare.</h2>
+            <p data-reveal="">Recepția vă spune la ce medic să mergeți, ce acte vă trebuie și când este primul loc liber.</p>
           </div>
           <div className="ctas" data-reveal="right">
             <a className="btn btn-light" href="tel:+40359450657"><Icon name="phone" />0359 450 657</a>

@@ -34,7 +34,7 @@ export default function MediciPage() {
 
       <header className="phead">
         <div className="kicker" data-reveal="fade">Echipa clinicii · Oradea</div>
-        <h1 data-reveal="mask">Medicii Clinicii Dr. Iova</h1>
+        <h1 data-reveal="lines">Medicii Clinicii Dr. Iova</h1>
         <p className="intro" data-reveal="">La Clinica Dr. Iova din Oradea (Str. Ceyrat nr. 31) lucrează șapte medici și psihologi: cinci psihiatri, dintre care unul pentru copii și adolescenți, un neurolog și un psiholog clinician care este și logoped. Programări la 0359 450 657, luni–vineri 08:00–20:00. Cu bilet de trimitere, consultațiile sunt gratuite prin CAS Bihor.</p>
         <div className="md-filters" role="group" aria-label="Filtrați medicii" data-stagger="fade">
           <button className="is-on" data-filter="all"><Icon name="users" />Toți <span className="cnt">{DOCTORS.length}</span></button>
@@ -81,7 +81,7 @@ export default function MediciPage() {
       <section>
         <div className="wrap md-how">
           <div>
-            <h2 className="h2" data-reveal="mask">La ce medic<br />vă programați?</h2>
+            <h2 className="h2" data-reveal="lines">La ce medic<br />vă programați?</h2>
             <p className="lead" data-reveal="">Dacă nu știți sigur, sunați la recepție. Vi se spune la ce specialitate mergeți, ce acte aduceți și când este primul loc liber.</p>
             <div className="ctas" style={{ display: "flex", gap: 10, flexWrap: "wrap", marginTop: 28 }} data-reveal="">
               <a className="btn btn-dark" href="tel:+40359450657"><Icon name="phone" />0359 450 657</a>
@@ -97,7 +97,7 @@ export default function MediciPage() {
         </div>
       </section>
 
-      <div className="cta-band" data-reveal="">
+      <div className="cta-band" data-reveal="" data-parallax="0.12" data-parallax-prop="--wm">
         <div className="in">
           <div>
             <h2>Programare la un medic al clinicii</h2>

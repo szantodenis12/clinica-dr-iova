@@ -42,14 +42,14 @@ export default function DoctorPage({ d }: { d: Doctor }) {
         </div>
         <figure className="md-fig" data-reveal="scale">
           <span className="pin">{d.tag}</span>
-          <img src={`/img/${d.slug}.png`} alt={`${d.full}, ${d.title.toLowerCase()}`} data-reveal="rise" />
+          <img src={`/img/${d.slug}.png`} alt={`${d.full}, ${d.title.toLowerCase()}`} data-reveal="rise" data-parallax="0.06" />
         </figure>
       </section>
 
       {/* ================= PE SCURT ================= */}
       <section>
         <div className="wrap">
-          <div className="sec-head" style={{ marginBottom: 32 }}><h2 className="h2" data-reveal="mask">Pe scurt</h2></div>
+          <div className="sec-head" style={{ marginBottom: 32 }}><h2 className="h2" data-reveal="lines">Pe scurt</h2></div>
           <div className="md-facts" data-stagger="">
             <div className="md-fact"><span className="lbl"><Icon name="stethoscope" />Specialitate</span><span className="val">{d.title}</span></div>
             <div className="md-fact"><span className="lbl"><Icon name="users" />Consultă</span><span className="val">{who}</span></div>
@@ -68,7 +68,7 @@ export default function DoctorPage({ d }: { d: Doctor }) {
         <div className="wrap">
           <div className="sec-head" style={{ marginBottom: 32 }}>
             <div>
-              <h2 className="h2" data-reveal="mask">Ce consultă<br />{d.h1}</h2>
+              <h2 className="h2" data-reveal="lines">Ce consultă<br />{d.h1}</h2>
               <p className="lead" data-reveal="">Serviciile clinicii la care vă puteți programa la {d.h1}. Recepția vă spune dacă este nevoie de bilet de trimitere.</p>
             </div>
           </div>
@@ -97,7 +97,7 @@ export default function DoctorPage({ d }: { d: Doctor }) {
             </figure>
           </div>
           <div>
-            <h2 className="h2" data-reveal="mask">Pregătire<br />și activitate</h2>
+            <h2 className="h2" data-reveal="lines">Pregătire<br />și activitate</h2>
             <p className="lead" data-reveal="">Titluri, locuri de muncă și activitate academică, așa cum ne-au fost confirmate.</p>
             <ul className="md-tl" style={{ marginTop: 32 }}>
               {d.tl.map(([y, t], i) => (
@@ -113,7 +113,7 @@ export default function DoctorPage({ d }: { d: Doctor }) {
         <div className="wrap">
           <div className="sec-head">
             <div>
-              <h2 className="h2" data-reveal="mask">{KIND_H2[d.kind]}</h2>
+              <h2 className="h2" data-reveal="lines">{KIND_H2[d.kind]}</h2>
               <p className="lead" data-reveal="">Ce se întâmplă, în general, la o primă consultație la Clinica Dr. Iova. Detaliile pot diferi de la caz la caz.</p>
             </div>
           </div>
@@ -136,7 +136,7 @@ export default function DoctorPage({ d }: { d: Doctor }) {
       {/* ================= FAQ ================= */}
       <section>
         <div className="wrap faq">
-          <h2 className="h2" data-reveal="mask">
+          <h2 className="h2" data-reveal="lines">
             {KIND_FAQ_H2[d.kind].split("\n").map((line, i) => (
               <Fragment key={i}>{i > 0 && <br />}{line}</Fragment>
             ))}
@@ -154,7 +154,7 @@ export default function DoctorPage({ d }: { d: Doctor }) {
         <div className="wrap">
           <div className="sec-head" style={{ marginBottom: 32 }}>
             <div>
-              <h2 className="h2" data-reveal="mask">Ceilalți medici<br />ai clinicii</h2>
+              <h2 className="h2" data-reveal="lines">Ceilalți medici<br />ai clinicii</h2>
               <p className="lead" data-reveal="">Psihiatri pentru adulți și copii, neurolog și psiholog clinician, la aceeași recepție. <Link href="/#recenzii" style={{ color: "var(--blue-deep)", textDecoration: "underline", textUnderlineOffset: 3 }}>Recenziile clinicii pe Google</Link>.</p>
             </div>
             <Link className="btn btn-line" href="/medici/"><Icon name="users" />Toți medicii</Link>
@@ -171,7 +171,7 @@ export default function DoctorPage({ d }: { d: Doctor }) {
       </section>
 
       {/* ================= CTA ================= */}
-      <div className="cta-band" data-reveal="">
+      <div className="cta-band" data-reveal="" data-parallax="0.12" data-parallax-prop="--wm">
         <div className="in">
           <div>
             <h2>Programare la {d.h1}</h2>

@@ -2,7 +2,6 @@ import { notFound } from "next/navigation";
 import "@/styles/medici.css";
 import "@/styles/mobile.css"; // always last
 import { buildMetadata } from "@/lib/seo";
-import { getRoute } from "@/lib/routes";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import JsonLd from "@/components/JsonLd";
 import DoctorPage from "@/components/medici/DoctorPage";
@@ -17,8 +16,9 @@ export function generateStaticParams() {
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const route = getRoute(`/medici/${slug}/`);
-  return buildMetadata({ title: route.title, description: route.description, path: route.path, ogImage: `/img/trim/${slug}.png` });
+  const d = getDoctor(slug);
+  if (!d) notFound();
+  return buildMetadata({ title: d.metaTitle, description: d.metaDescription, path: `/medici/${slug}/`, ogImage: `/img/trim/${slug}.png` });
 }
 
 export default async function DoctorRoute({ params }: { params: Promise<{ slug: string }> }) {

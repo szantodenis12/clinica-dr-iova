@@ -50,7 +50,7 @@ export default function BlogIndexPage() {
       <section className="featured" style={{ padding: 0 }}>
         <Link href={`/blog/${featured.slug}/`} data-reveal="scale">
           <div className="img" data-reveal="mask">
-            <img src={blogImage(featured.slug)} alt={featured.featuredAlt} data-parallax="0.06" />
+            <img src={blogImage(featured.slug)} alt={featured.featuredAlt} data-parallax-img="" />
           </div>
           <div className="txt">
             <div>
@@ -86,7 +86,7 @@ export default function BlogIndexPage() {
         </div>
       </section>
 
-      <section className="cta-band">
+      <section className="cta-band" data-parallax="0.12" data-parallax-prop="--wm">
         <div className="in" data-reveal="scale">
           <div>
             <h2>Aveți o întrebare care nu este în articole?</h2>

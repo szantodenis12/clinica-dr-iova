@@ -12,7 +12,9 @@ const TEL_HREF = "tel:+40359450657";
 export default function ServiceTemplate({ s }: { s: Service }) {
   const h = s.header;
   const { Body, kf } = contentBySlug[s.slug];
-  const { src, alt, fallback, ...heroRest } = h.hero;
+  // the data carries the old free `data-parallax`; the hero photo now uses the framed-image parallax instead
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const { src, alt, fallback, "data-parallax": _legacyParallax, ...heroRest } = h.hero as typeof h.hero & { "data-parallax"?: string };
   return (
     <>
       <Breadcrumbs items={s.breadcrumb} />
@@ -26,7 +28,7 @@ export default function ServiceTemplate({ s }: { s: Service }) {
             <div className="kicker" data-reveal="fade">
               {h.kicker}
             </div>
-            <h1 data-reveal="">{h.h1}</h1>
+            <h1 data-reveal="lines">{h.h1}</h1>
             <p className="intro" data-reveal="">
               {h.intro}
             </p>
@@ -50,7 +52,7 @@ export default function ServiceTemplate({ s }: { s: Service }) {
             </ul>
           </div>
           <figure className="phead-media img-zoom" data-reveal="mask">
-            <FallbackImg src={src} alt={alt} fallback={fallback} {...heroRest} />
+            <FallbackImg src={src} alt={alt} fallback={fallback} {...heroRest} data-parallax-img="" />
             <figcaption>{h.caption}</figcaption>
           </figure>
         </div>
@@ -144,7 +146,7 @@ export default function ServiceTemplate({ s }: { s: Service }) {
         </div>
       </section>
 
-      <section className="cta-band serv-sec" data-reveal="">
+      <section className="cta-band serv-sec" data-reveal="" data-parallax="0.12" data-parallax-prop="--wm">
         <div className="in">
           <div>
             <h2>{s.cta.h2}</h2>

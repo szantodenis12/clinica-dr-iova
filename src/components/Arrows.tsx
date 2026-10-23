@@ -11,8 +11,12 @@ export default function Arrows({ forId, small }: { forId: string; small?: boolea
   const go = (dir: 1 | -1) => {
     const t = document.getElementById(forId);
     if (!t || !t.firstElementChild) return;
-    const step = t.firstElementChild.getBoundingClientRect().width + 14;
-    t.scrollBy({ left: dir * step, behavior: "smooth" });
+    // layout px (offsetWidth), not getBoundingClientRect: under the html `zoom` (>=1400px) rects are scaled
+    // while scrollLeft is not, which made one click overshoot a card
+    const gap = parseFloat(getComputedStyle(t).columnGap) || 14;
+    const step = (t.firstElementChild as HTMLElement).offsetWidth + gap;
+    const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+    t.scrollBy({ left: dir * step, behavior: reduce ? "auto" : "smooth" });
   };
   return (
     <div className={`arrows${small ? " sm" : ""}`} data-for={forId}>

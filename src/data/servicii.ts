@@ -6,6 +6,9 @@ export type ArticleCard = { slug: string; kicker: string; title: string };
 
 export type Service = {
   slug: string;
+  /** <title> and og:title of /servicii/<slug>/ (also feeds sitemap/llms.txt via lib/routes.ts) */
+  metaTitle: string;
+  metaDescription: string;
   /** og:image from the original fragment meta */
   ogImage: string;
   /** JSON-LD objects (MedicalWebPage, FAQPage) */
@@ -135,6 +138,8 @@ export const articleCards: Record<string, ArticleCard> = {
 export const servicii: Service[] = [
   {
     slug: "psihiatrie-adulti",
+    metaTitle: "Psihiatrie adulți în Oradea | Clinica Dr. Iova",
+    metaDescription: "Psihiatrie pentru adulți la Clinica Dr. Iova, Oradea: evaluare, diagnostic și urmărirea tratamentului. Gratuit prin CAS, cu bilet. Tel. 0359 450 657.",
     ogImage: "/img/Image6.jpg",
     schema: [
       {
@@ -303,6 +308,8 @@ export const servicii: Service[] = [
   },
   {
     slug: "psihiatrie-pediatrica",
+    metaTitle: "Psihiatrie pediatrică Oradea | Clinica Dr. Iova",
+    metaDescription: "Psihiatrie pediatrică la Clinica Dr. Iova, Oradea: evaluarea copilului și a adolescentului împreună cu părinții. Gratuit prin CAS, cu bilet de trimitere.",
     ogImage: "/img/Image9.jpg",
     schema: [
       {
@@ -448,6 +455,8 @@ export const servicii: Service[] = [
   },
   {
     slug: "neurologie",
+    metaTitle: "Neurologie Oradea | Consult neurologic | Clinica Dr. Iova",
+    metaDescription: "Consult neurologic pentru adulți la Clinica Dr. Iova, Oradea, cu Dr. Titus Moga, medic specialist neurolog. Gratuit prin CAS, cu bilet. Tel. 0359 450 657.",
     ogImage: "/img/Image7.jpg",
     schema: [
       {
@@ -593,6 +602,8 @@ export const servicii: Service[] = [
   },
   {
     slug: "psihologie-clinica",
+    metaTitle: "Psihologie clinică Oradea | Evaluare | Clinica Dr. Iova",
+    metaDescription: "Psihologie clinică la Clinica Dr. Iova, Oradea: evaluare psihologică și psihodiagnostic pentru copii și adulți, cu raport scris. Peste 400 de evaluări pe lună.",
     ogImage: "/img/Image1.jpg",
     schema: [
       {
@@ -743,6 +754,8 @@ export const servicii: Service[] = [
   },
   {
     slug: "psihoterapie-integrativa",
+    metaTitle: "Psihoterapie integrativă Oradea | Clinica Dr. Iova",
+    metaDescription: "Psihoterapie integrativă la Clinica Dr. Iova, Oradea: ședințe individuale, cu metode alese după nevoile persoanei, alături de medicii psihiatri ai clinicii.",
     ogImage: "/img/Image6.jpg",
     schema: [
       {
@@ -880,6 +893,8 @@ export const servicii: Service[] = [
   },
   {
     slug: "terapie-emdr",
+    metaTitle: "Terapie EMDR Oradea | Clinica Dr. Iova",
+    metaDescription: "Terapie EMDR la Clinica Dr. Iova, Oradea: metodă în opt faze pentru amintiri traumatice, recomandată de OMS pentru stresul posttraumatic. Terapeut format EMDR.",
     ogImage: "/img/Image9.jpg",
     schema: [
       {
@@ -1023,6 +1038,8 @@ export const servicii: Service[] = [
   },
   {
     slug: "logopedie",
+    metaTitle: "Logopedie Oradea | Terapia limbajului | Clinica Dr. Iova",
+    metaDescription: "Logopedie pentru copii la Clinica Dr. Iova, Oradea: evaluarea și terapia tulburărilor de limbaj și pronunție, cu Forbrain. Logoped și psiholog, același loc.",
     ogImage: "/img/Image3.jpg",
     schema: [
       {
@@ -1173,6 +1190,8 @@ export const servicii: Service[] = [
   },
   {
     slug: "evaluarea-copiilor",
+    metaTitle: "Evaluarea psihologică a copilului | Oradea | Dr. Iova",
+    metaDescription: "Evaluarea psihologică a copilului la Clinica Dr. Iova, Oradea: dezvoltare, atenție, limbaj, comportament, pregătire pentru școală. Raport scris și recomandări.",
     ogImage: "/img/Image9.jpg",
     schema: [
       {
@@ -1323,6 +1342,8 @@ export const servicii: Service[] = [
   },
   {
     slug: "consiliere-psihologica",
+    metaTitle: "Consiliere psihologică Oradea | Clinica Dr. Iova",
+    metaDescription: "Consiliere psihologică la Clinica Dr. Iova, Oradea: întâlniri pe termen scurt cu un psiholog clinician, pentru o dificultate concretă. Adulți și părinți.",
     ogImage: "/img/Image2.jpg",
     schema: [
       {
@@ -1472,6 +1493,8 @@ export const servicii: Service[] = [
   },
   {
     slug: "evaluari-comisii",
+    metaTitle: "Evaluări pentru comisii de handicap și pensionare | Oradea",
+    metaDescription: "Documente medicale și psihologice pentru comisia de handicap și pensia de invaliditate, la Clinica Dr. Iova, Oradea. Pași, acte necesare, termene legale.",
     ogImage: "/img/Image6.jpg",
     schema: [
       {
@@ -1633,6 +1656,8 @@ export const servicii: Service[] = [
   },
   {
     slug: "aviz-psihologic-port-arma",
+    metaTitle: "Aviz psihologic port-armă Oradea | Clinica Dr. Iova",
+    metaDescription: "Aviz psihologic pentru permisul de armă la Clinica Dr. Iova, Oradea: evaluare conform Legii 295/2004, pași, acte, valabilitate. Programare la 0359 450 657.",
     ogImage: "/img/Image7.jpg",
     schema: [
       {
@@ -1776,6 +1801,8 @@ export const servicii: Service[] = [
   },
   {
     slug: "consultatii-cas",
+    metaTitle: "Consultații gratuite prin CAS | Clinica Dr. Iova Oradea",
+    metaDescription: "Cum folosiți biletul de trimitere la Clinica Dr. Iova, Oradea: psihiatrie, psihiatrie pediatrică și neurologie gratuite prin CAS Bihor. Acte și valabilitate.",
     ogImage: "/img/Image4.jpg",
     schema: [
       {

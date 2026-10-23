@@ -30,7 +30,7 @@ export default function ServiciiPage() {
             <div className="kicker" data-reveal="fade">
               Servicii · Oradea
             </div>
-            <h1 data-reveal="">Ce puteți face la Clinica Dr. Iova</h1>
+            <h1 data-reveal="lines">Ce puteți face la Clinica Dr. Iova</h1>
             <p className="intro" data-reveal="">
               Clinica Dr. Iova din Oradea oferă psihiatrie pentru adulți și copii, neurologie,
               psihologie clinică, psihoterapie (inclusiv EMDR), logopedie, evaluări psihologice și
@@ -718,7 +718,7 @@ export default function ServiciiPage() {
           </Link>
         </div>
       </section>
-      <section className="cta-band serv-sec" data-reveal="">
+      <section className="cta-band serv-sec" data-reveal="" data-parallax="0.12" data-parallax-prop="--wm">
         <div className="in">
           <div>
             <h2>Puteți suna și doar pentru o întrebare.</h2>
