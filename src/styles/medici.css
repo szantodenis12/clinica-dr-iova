@@ -1,0 +1,184 @@
+/* medici.css: hub /medici/ + pagini medici (owner: doctors agent). Prefix md- */
+
+/* ---------- hub: filtre ---------- */
+.md-filters{display:flex;flex-wrap:wrap;gap:8px;margin-top:34px}
+.md-filters button{height:44px;padding:0 18px;border-radius:999px;border:1px solid var(--line);background:#fff;color:var(--ink);font:500 13px/1 "Inter Tight",system-ui,sans-serif;letter-spacing:.02em;text-transform:uppercase;cursor:pointer;display:inline-flex;align-items:center;gap:8px;transition:background .3s,border-color .3s,color .3s,transform .4s cubic-bezier(.2,.7,.2,1)}
+.md-filters button svg{width:15px;height:15px;stroke-width:1.8}
+.md-filters button:hover{border-color:var(--blue);transform:translateY(-1px)}
+.md-filters button.is-on{background:var(--navy);border-color:var(--navy);color:#fff}
+.md-filters .cnt{font-size:11px;color:var(--muted);margin-left:2px}
+.md-filters button.is-on .cnt{color:#B8C3D6}
+
+/* ---------- hub: grid medici ---------- */
+.md-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:40px}
+.md-card{position:relative;display:block;aspect-ratio:320/430;border-radius:12px;overflow:hidden;color:#fff;background:linear-gradient(180deg,#CFE6F1 0%,#E9F4F9 60%,#F6FAFC 100%);transition:transform .5s cubic-bezier(.2,.7,.2,1),box-shadow .5s,opacity .5s}
+.md-card::before{content:"";position:absolute;inset:0;background:radial-gradient(55% 45% at 50% 22%,rgba(40,170,219,.28),transparent 70%);opacity:0;transition:opacity .6s}
+.md-card:hover::before{opacity:1}
+.md-card img{position:absolute;left:0;right:0;margin:0 auto;bottom:-26%;height:126%;width:auto;max-width:none;filter:drop-shadow(0 20px 30px rgba(13,22,45,.14));transition:transform 1s cubic-bezier(.2,.7,.2,1)}
+.md-card:hover img{transform:translateY(-8px)}
+.md-card .tag{position:absolute;top:12px;left:12px;z-index:2;background:#fff;color:var(--ink);font-size:11px;font-weight:500;padding:4px 9px;border-radius:999px;letter-spacing:.02em}
+.md-card .info{position:absolute;left:0;right:0;bottom:0;z-index:2;padding:16px 50px 16px 14px;background:linear-gradient(180deg,rgba(120,170,205,.55),rgba(52,120,170,.9));backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
+.md-card h3{font-size:21px;font-weight:500;letter-spacing:-.025em;line-height:1.1}
+.md-card .role{font-size:14px;opacity:.9;margin-top:3px;line-height:1.25}
+.md-card .chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+.md-card .chips span{font-size:10px;letter-spacing:.04em;text-transform:uppercase;padding:4px 9px;border-radius:999px;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.25)}
+.md-card .go{position:absolute;right:14px;bottom:16px;z-index:3;width:30px;height:38px;border-radius:999px;background:#fff;color:var(--ink);display:grid;place-items:center;transition:transform .4s cubic-bezier(.2,.7,.2,1),background .3s}
+.md-card .go svg{width:16px;height:16px}
+.md-card:hover .go{transform:translateX(3px);background:var(--mint)}
+.md-card.is-hidden{display:none}
+.md-empty{display:none;margin-top:30px;color:var(--muted);font-size:15px}
+.md-grid.is-empty+.md-empty{display:block}
+
+/* ---------- hub: în curând ---------- */
+.md-soon{margin-top:64px;border-top:1px solid var(--line);padding-top:36px}
+.md-soon .h3{font-size:22px;font-weight:500;letter-spacing:-.02em}
+.md-soon p{color:var(--muted);font-size:15px;margin-top:8px;max-width:560px}
+.md-soon ul{list-style:none;display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-top:22px}
+.md-soon li{background:var(--card);border-radius:10px;padding:16px 16px 14px;font-size:16px;letter-spacing:-.01em;line-height:1.25;transition:background .3s}
+.md-soon li:hover{background:#EAF6FB}
+.md-soon li small{display:block;color:var(--muted);font-size:13px;margin-top:4px}
+.md-soon li .ini{display:grid;place-items:center;width:40px;height:40px;border-radius:999px;background:#fff;color:var(--blue-deep);font-size:14px;font-weight:500;margin-bottom:12px;border:1px solid var(--line)}
+
+/* ---------- hub: cum alegeți ---------- */
+.md-how{display:grid;grid-template-columns:1.1fr .9fr;gap:40px;align-items:start}
+.md-how .list{display:grid;gap:10px}
+.md-how .row{display:grid;grid-template-columns:56px 1fr;gap:16px;align-items:start;padding:18px;border-radius:12px;background:var(--card);transition:background .3s,transform .5s cubic-bezier(.2,.7,.2,1)}
+.md-how .row:hover{background:#EAF6FB;transform:translateX(4px)}
+.md-how .row .ic{width:56px;height:56px;border-radius:10px;background:#fff;display:grid;place-items:center}
+.md-how .row .ic svg{width:24px;height:24px;color:var(--blue);stroke-width:1.6}
+.md-how .row b{display:block;font-weight:500;font-size:17px;letter-spacing:-.01em;margin-bottom:3px}
+.md-how .row p{font-size:15px;color:var(--muted);line-height:1.45}
+.md-how .row a{color:var(--blue-deep);text-decoration:underline;text-underline-offset:3px}
+
+/* ---------- pagina medic: hero ---------- */
+.md-hero{max-width:1440px;margin:0 auto;padding:30px var(--pad) 0;display:grid;grid-template-columns:1.05fr .95fr;gap:48px;align-items:center}
+.md-hero .kicker{font-size:13px;text-transform:uppercase;letter-spacing:.04em;color:var(--blue-deep);margin-bottom:14px}
+.md-hero h1{font-size:clamp(40px,5vw,72px);font-weight:500;letter-spacing:-.045em;line-height:.98;text-wrap:balance}
+.md-hero h1 small{display:block;font-size:.42em;font-weight:400;letter-spacing:-.01em;color:var(--muted);margin-top:14px;line-height:1.2}
+.md-hero .intro{font-size:18px;line-height:1.5;color:var(--muted);max-width:600px;margin-top:22px}
+.md-hero .chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:22px}
+.md-hero .chips span{font-size:11px;letter-spacing:.04em;text-transform:uppercase;padding:7px 12px;border-radius:999px;background:#EAF6FB;color:var(--blue-deep);border:1px solid rgba(40,170,219,.25)}
+.md-hero .ctas{display:flex;gap:10px;flex-wrap:wrap;margin-top:32px}
+.md-fig{position:relative;border-radius:18px;overflow:hidden;aspect-ratio:4/4.6;background:linear-gradient(180deg,#CFE6F1 0%,#E9F4F9 60%,#F6FAFC 100%)}
+.md-fig::before{content:"";position:absolute;inset:0;background:radial-gradient(55% 45% at 50% 25%,rgba(40,170,219,.30),transparent 70%),radial-gradient(40% 35% at 85% 85%,rgba(231,191,168,.45),transparent 70%)}
+.md-fig::after{content:"";position:absolute;left:10%;right:10%;bottom:-2%;height:24%;border-radius:50%;background:radial-gradient(50% 50% at 50% 50%,rgba(13,22,45,.16),transparent 70%)}
+.md-fig img{position:absolute;left:0;right:0;margin:0 auto;bottom:-22%;height:122%;width:auto;max-width:none;z-index:1;filter:drop-shadow(0 30px 50px rgba(13,22,45,.16))}
+.md-fig img[data-reveal="rise"]{transform:translateY(70px);opacity:0}
+.md-fig img[data-reveal="rise"].is-in{transform:none;opacity:1}
+.md-fig .pin{position:absolute;top:16px;left:16px;z-index:2;background:#fff;color:var(--ink);font-size:11px;font-weight:500;padding:5px 10px;border-radius:999px;letter-spacing:.02em}
+
+/* ---------- pagina medic: pe scurt ---------- */
+.md-facts{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.md-fact{background:var(--card);border-radius:12px;padding:20px 20px 18px;min-height:132px;display:flex;flex-direction:column;gap:10px;transition:background .3s}
+.md-fact:hover{background:#EAF6FB}
+.md-fact .lbl{display:flex;align-items:center;gap:8px;font-size:12px;text-transform:uppercase;letter-spacing:.04em;color:var(--muted)}
+.md-fact .lbl svg{width:16px;height:16px;stroke-width:1.7;color:var(--blue)}
+.md-fact .val{font-size:17px;letter-spacing:-.01em;line-height:1.3;margin-top:auto}
+.md-fact .val a{color:var(--blue-deep)}
+.md-fact .val .todo{font-size:11px}
+
+/* ---------- pagina medic: ce consultă ---------- */
+.md-serv{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.md-serv .pill{transition:border-color .3s,background .3s,transform .5s cubic-bezier(.2,.7,.2,1)}
+.md-serv .pill:hover{border-color:var(--blue);background:#EAF6FB;transform:translateY(-3px)}
+.md-serv .pill svg{color:var(--blue)}
+.md-serv .pill .arr{margin-left:auto;color:var(--muted);width:18px;height:18px}
+.md-two{display:grid;grid-template-columns:.9fr 1.1fr;gap:48px;align-items:start}
+.md-two .side{position:sticky;top:120px}
+
+/* ---------- pagina medic: pregătire (timeline) ---------- */
+.md-tl{list-style:none;position:relative;padding-left:0;display:grid;gap:0}
+.md-tl li{display:grid;grid-template-columns:120px 1fr;gap:24px;padding:20px 0;border-top:1px solid var(--line);align-items:start}
+.md-tl li:last-child{border-bottom:1px solid var(--line)}
+.md-tl .yr{font-size:13px;text-transform:uppercase;letter-spacing:.04em;color:var(--blue-deep);padding-top:4px}
+.md-tl .tx{font-size:17px;line-height:1.5;color:#2A3346}
+.md-tl .tx b{font-weight:500;color:var(--ink)}
+
+/* ---------- pagina medic: foto la lucru ---------- */
+.md-photo{position:relative;border-radius:18px;overflow:hidden;aspect-ratio:3/2;background:var(--card)}
+.md-photo img{width:100%;height:100%;object-fit:cover;display:block}
+.md-photo .cap{position:absolute;left:16px;bottom:16px;z-index:2;display:flex;gap:8px;flex-wrap:wrap}
+.md-photo .cap span{background:rgba(255,255,255,.9);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border-radius:999px;padding:7px 12px;font-size:12px;color:var(--ink)}
+.md-photo .cap .todo{background:#FFF6EF}
+
+/* ---------- pagina medic: alți medici ---------- */
+.md-others{display:grid;grid-template-columns:repeat(6,1fr);gap:12px}
+.md-mini{position:relative;display:block;aspect-ratio:1/1.08;border-radius:12px;overflow:hidden;background:linear-gradient(180deg,#DCEDF5 0%,#F3F8FB 100%);transition:transform .5s cubic-bezier(.2,.7,.2,1),box-shadow .5s}
+.md-mini:hover{transform:translateY(-5px);box-shadow:0 20px 40px rgba(13,22,45,.10)}
+.md-mini img{position:absolute;left:0;right:0;margin:0 auto;bottom:-75%;height:175%;width:auto;max-width:none}
+.md-mini .n{position:absolute;left:0;right:0;bottom:0;padding:10px 12px;background:linear-gradient(180deg,rgba(255,255,255,0),rgba(255,255,255,.92) 40%);font-size:14px;font-weight:500;letter-spacing:-.01em;line-height:1.15}
+.md-mini .n small{display:block;font-weight:400;font-size:11px;color:var(--muted);margin-top:2px}
+
+/* ---------- pagina medic: note ---------- */
+.md-notes{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:40px}
+.md-notes .note a{text-decoration:underline;text-underline-offset:3px}
+
+/* ---------- responsive ---------- */
+@media (max-width:1100px){
+  .md-grid{grid-template-columns:repeat(3,1fr)}
+  .md-soon ul{grid-template-columns:repeat(3,1fr)}
+  .md-facts{grid-template-columns:repeat(2,1fr)}
+  .md-serv{grid-template-columns:repeat(2,1fr)}
+  .md-others{grid-template-columns:repeat(3,1fr)}
+  .md-hero{grid-template-columns:1fr 1fr;gap:28px}
+  .md-two{grid-template-columns:1fr;gap:32px}
+  .md-two .side{position:static}
+}
+@media (max-width:700px){
+  .md-grid{grid-template-columns:repeat(2,1fr);gap:10px;margin-top:28px}
+  .md-card{aspect-ratio:320/460}
+  .md-card img{height:104%;bottom:-4%}
+  .md-card .info{padding:12px 44px 12px 12px}
+  .md-card h3{font-size:16px}
+  .md-card .role{font-size:12px}
+  .md-card .chips{display:none}
+  .md-soon ul{grid-template-columns:1fr 1fr}
+  .md-how{grid-template-columns:1fr}
+  .md-hero{grid-template-columns:1fr;gap:28px;padding-top:20px}
+  .md-fig{aspect-ratio:4/4.2;max-width:420px}
+  .md-hero .ctas .btn{width:100%;justify-content:center}
+  .md-facts{grid-template-columns:1fr 1fr;gap:10px}
+  .md-fact{padding:16px;min-height:110px}
+  .md-fact .val{font-size:15px}
+  .md-serv{grid-template-columns:1fr}
+  .md-tl li{grid-template-columns:1fr;gap:6px;padding:16px 0}
+  .md-tl .tx{font-size:16px}
+  .md-others{display:flex;overflow-x:auto;scrollbar-width:none;gap:10px;margin-right:calc(-1 * var(--pad));padding-right:var(--pad)}
+  .md-others::-webkit-scrollbar{display:none}
+  .md-mini{flex:0 0 46%}
+  .md-notes{grid-template-columns:1fr}
+  .md-filters{margin-top:24px}
+  .md-filters button{height:40px;padding:0 14px;font-size:12px}
+}
+
+/* other-doctors strip v2 (Roland 21.10: "feeling bad"): same language as the homepage doctor cards,
+   portraits centred, blue info panel instead of white fade over the shirt */
+.md-mini{aspect-ratio:4/5;background:linear-gradient(180deg,#CDE4F0 0%,#E7F2F8 60%,#F4F8FB 100%)}
+.md-mini img{left:50%;right:auto;margin:0;transform:translateX(-50%);top:4%;bottom:auto;height:auto;width:150%;transition:scale 1s cubic-bezier(.2,.7,.2,1)}
+.md-mini:hover img{scale:1.04}
+.md-mini .n{padding:12px 14px 13px;color:#fff;background:linear-gradient(180deg,rgba(110,165,200,.55),rgba(45,112,160,.94));backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);font-size:15px;white-space:nowrap}
+.md-mini .n small{color:rgba(255,255,255,.82);font-size:11.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+@media (max-width:700px){.md-mini{flex:0 0 46%}}
+.md-mini img{width:118%;top:-2%}
+/* v3: head-centred trimmed cutouts, smaller */
+.md-mini img{width:78%;top:9%;left:50%;transform:translateX(-50%)}
+
+/* doctor pages: glowing glass brain panel instead of a photo (Roland 21.10) */
+.md-brain{position:relative;aspect-ratio:3/2;overflow:hidden;display:grid;place-items:center;isolation:isolate;
+  background:radial-gradient(60% 80% at 15% 20%,#2E86AE 0%,rgba(46,134,174,0) 70%),radial-gradient(45% 70% at 70% 110%,#E7BFA8 0%,rgba(231,191,168,0) 70%),linear-gradient(120deg,#5FA9C9 0%,#A9D2E2 55%,#D9E6EC 100%)}
+.md-brain img{position:relative;z-index:2;width:46%;height:auto;filter:drop-shadow(0 0 18px rgba(40,170,219,.8)) drop-shadow(0 14px 30px rgba(13,22,45,.2));animation:mdBrainFloat 7s ease-in-out infinite,mdBrainTint 6s ease-in-out infinite}
+.md-brain .glow{position:absolute;z-index:1;width:56%;aspect-ratio:1;border-radius:50%;background:radial-gradient(circle,rgba(40,170,219,.8) 0%,rgba(111,224,190,.5) 38%,rgba(111,224,190,0) 68%);filter:blur(26px);animation:mdBrainGlow 6s ease-in-out infinite}
+.md-brain .light{position:absolute;inset:-40%;z-index:0;background:linear-gradient(105deg,transparent 40%,rgba(255,255,255,.22) 50%,transparent 60%);filter:blur(14px);animation:mdBeam 14s ease-in-out infinite}
+@keyframes mdBrainFloat{0%,100%{transform:translateY(0) rotate(-2deg)}50%{transform:translateY(-4%) rotate(2deg)}}
+@keyframes mdBrainTint{0%,100%{filter:drop-shadow(0 0 18px rgba(40,170,219,.85)) drop-shadow(0 14px 30px rgba(13,22,45,.2))}50%{filter:drop-shadow(0 0 30px rgba(111,224,190,.95)) drop-shadow(0 14px 30px rgba(13,22,45,.2))}}
+@keyframes mdBrainGlow{0%,100%{opacity:.55;transform:scale(.9)}50%{opacity:1;transform:scale(1.1)}}
+@keyframes mdBeam{0%{transform:translateX(-50%)}60%,100%{transform:translateX(50%)}}
+@media (prefers-reduced-motion:reduce){.md-brain img,.md-brain .glow,.md-brain .light{animation:none}}
+
+/* hub cards v2: head-centred trimmed cutouts, smaller; equal info panels with one-row chips (Roland 21.10) */
+.md-card img{left:50%;right:auto;margin:0;transform:translateX(-50%);top:9%;bottom:auto;height:auto;width:76%}
+.md-card:hover img{transform:translateX(-50%) translateY(-6px)}
+.md-card .info{min-height:128px;display:flex;flex-direction:column;justify-content:flex-end}
+.md-card h3,.md-card .role{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.md-card .chips{flex-direction:row!important;flex-wrap:nowrap!important;gap:6px;overflow:hidden}
+.md-card .chips span{white-space:nowrap;font-size:10px}

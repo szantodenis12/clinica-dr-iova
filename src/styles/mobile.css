@@ -1,0 +1,89 @@
+/* mobile.css: phone-only layer (Roland 22.10: "weird as experience"). Loaded last; desktop untouched.
+   App-like: solid top bar, one-screen hero, bottom action bar, swipe rows instead of long stacks. */
+.mbar{display:none}
+
+@media (max-width:700px){
+  /* ---- top bar: full width, solid, never floats over content ---- */
+  .nav{top:0;left:0;right:0;height:62px;border-radius:0;padding:0 10px 0 16px;border:0;border-bottom:1px solid rgba(13,22,45,.06);
+    background:rgba(255,255,255,.86)}
+  .nav.is-scrolled{background:rgba(255,255,255,.94);box-shadow:0 6px 24px rgba(13,22,45,.06)}
+  .nav-burger{width:42px;height:42px}
+  .nav.is-open ul{top:62px;border-radius:0 0 20px 20px;padding:6px 20px 14px}
+  .page-inner main{padding-top:84px}
+
+  /* ---- bottom action bar (replaces the floating chat bubble) ---- */
+  .mbar{display:grid;grid-template-columns:52px 1fr 1.35fr;gap:6px;position:fixed;left:10px;right:10px;bottom:calc(10px + env(safe-area-inset-bottom,0px));z-index:58;
+    padding:6px;border-radius:20px;background:rgba(255,255,255,.9);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);
+    box-shadow:0 14px 40px rgba(13,22,45,.18);border:1px solid rgba(255,255,255,.8);
+    transition:transform .5s cubic-bezier(.2,.7,.2,1),opacity .5s}
+  .mbar a,.mbar button{height:50px;border-radius:14px;display:flex;align-items:center;justify-content:center;gap:8px;font:inherit;font-size:14px;font-weight:500;letter-spacing:-.01em;border:0;cursor:pointer}
+  .mbar svg{width:19px;height:19px;stroke-width:1.8}
+  .mbar .mb-wa{background:#EAF6FB;color:var(--blue-deep)}
+  .mbar .mb-tel{background:#F1F3F6;color:var(--ink)}
+  .mbar .mb-book{background:var(--navy);color:#fff}
+  .page-home .mbar:not(.is-on){transform:translateY(130%);opacity:0}
+  .page-programare .mbar{display:none}
+  .site:not(.page-programare) .wa-fab{display:none}
+  .wa-panel{bottom:86px}
+  .site:not(.page-admin) footer{padding-bottom:100px}
+  .ck{bottom:84px}
+
+  /* ---- hero: exactly one screen; text on top, Dr. Iova fills the rest ---- */
+  html,body{overflow-x:hidden}
+  .page-home .hero{overflow:hidden}
+  .page-home .hero-frame{width:100%}
+  .page-home .hero-inner{position:relative;z-index:2}
+  .page-home .hero h1,.page-home .eyebrow{text-shadow:0 2px 18px rgba(13,40,70,.28)}
+  .hero-bg .light{opacity:.45}
+  .hero-bg .beam{opacity:.35}
+  .page-home .hero-inner{flex:none;padding:92px var(--pad) 0}
+  .page-home .hero .bottom{display:none}
+  .page-home .hero h1{font-size:11.6vw}
+  .page-home .hero-doc{order:2;flex:none;height:max(420px,calc(100svh - 230px));margin-top:-100px!important;z-index:0;position:relative;width:100%;margin:14px 0 0;filter:none}
+  .page-home .hero-doc img{position:absolute;bottom:0;left:50%;height:100%;width:auto;max-width:none;transform:translateX(-34%);
+    filter:drop-shadow(0 24px 40px rgba(13,22,45,.18))}
+  .page-home .stats{order:3;margin:0;padding:26px var(--pad) 30px;background:rgba(255,255,255,.55);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+    border-top:1px solid rgba(255,255,255,.7);gap:18px 20px}
+  .page-home .stats b{font-size:28px}
+
+  /* ---- shorter rhythm ---- */
+  section{padding-top:64px}
+  .arrows{display:none}
+  .bgb{display:none}
+
+  /* ---- shared swipe row ---- */
+  .rev-themes,.steps{display:flex;gap:10px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;
+    margin:0 calc(var(--pad) * -1);padding:0 var(--pad) 4px;scroll-padding:0 var(--pad)}
+  .rev-themes::-webkit-scrollbar,.steps::-webkit-scrollbar{display:none}
+  .rev-themes>*,.steps>.step{flex:0 0 84%;scroll-snap-align:start}
+  .track,.gal{scroll-snap-type:x mandatory}
+  .track>*,.gal>*{scroll-snap-align:start}
+
+  /* services: 2-column tiles instead of 12 full-width rows */
+  #specialitati .grid4{grid-template-columns:1fr 1fr;gap:10px}
+  .spec{flex-direction:column;align-items:flex-start;justify-content:space-between;gap:14px;padding:14px;min-height:120px;font-size:15px;line-height:1.2}
+  .spec .ic{width:44px;height:44px;border-radius:10px}
+  .spec .ic svg{width:22px;height:22px}
+
+  /* "Gândită pentru pacient": 2-column chips */
+  .pills,.page-home .grid4:has(> .pill){grid-template-columns:1fr 1fr;gap:10px}
+  .pill{height:auto;min-height:92px;padding:14px;flex-direction:column;align-items:flex-start;justify-content:space-between;gap:10px;font-size:14px;line-height:1.25}
+
+  /* steps cards: no empty gap above "Pasul" */
+  .steps>.step{min-height:0;grid-template-columns:52px 1fr;gap:12px 16px;padding:16px}
+  .steps>.step .num{width:52px;height:64px;font-size:26px}
+  .steps>.step p{font-size:15px}
+  .steps>.step .foot{margin-top:6px;gap:20px}
+
+  /* reviews: score card compact */
+  .rev-score{padding:24px 22px}
+
+  /* gallery: photos only */
+  .gal .blob{display:none}
+  .gal>*{flex-basis:82%;height:250px;border-radius:12px}
+
+  /* booking: wizard steps are not the grey homepage step cards */
+  .prog-stage .step{background:none;padding:0;min-height:0;border-radius:0}
+  .prog-stage .step.is-active{display:block}
+}
+@media (max-width:700px) and (prefers-reduced-motion:reduce){.mbar{transition:none}}
