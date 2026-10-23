@@ -244,6 +244,10 @@ footer{background:var(--navy);color:#fff;padding:90px var(--pad) 90px}
 :where(html.has-anim) [data-reveal="scale"]{transform:scale(.94)}
 :where(html.has-anim) [data-reveal="mask"]{opacity:1;transform:none;clip-path:inset(0 0 100% 0)}
 :where(html.has-anim) [data-reveal="lines"]{transform:none;transition:none}
+/* phones / touch (Motion.tsx LITE): no SplitText masks, the heading is a plain fade-up */
+:where(html.has-anim.motion-lite) [data-reveal="lines"]{transform:translateY(28px);transition:opacity .9s cubic-bezier(.2,.7,.2,1),transform .9s cubic-bezier(.2,.7,.2,1)}
+/* FAQ answers are never scroll-revealed (also enforced in Motion.tsx) */
+:where(html.has-anim) details [data-reveal]{opacity:1;transform:none;clip-path:none}
 :where(html.has-anim) [data-reveal].is-in{opacity:1;transform:none;clip-path:inset(0 0 0 0)}
 /* headline lines (SplitText mask): a little room so Ă/Ș/Ț and descenders are not clipped by the mask */
 .rl-mask{padding-block:.08em .12em;margin-block:-.08em -.12em}

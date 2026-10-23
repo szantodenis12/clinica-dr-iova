@@ -26,8 +26,10 @@ const subscribeReduced = (cb: () => void) => {
  * Touch-first devices (phones, tablets, and Chrome DevTools mobile emulation) keep pure native scroll.
  * Lenis only smooths the wheel, which is useless on touch, and in DevTools emulation (devicePixelRatio > 1)
  * the emulated wheel `deltaY` arrives divided by the DPR, so Lenis crawled at 1/3 speed on a 3x phone profile.
+ * Either signal is enough (some Android phones report `hover: hover` or `pointer: fine`), and any touch screen up
+ * to tablet width also counts; desktops (fine pointer + hover, wider than 1024px) keep Lenis.
  */
-const COARSE_QUERY = "(hover: none) and (pointer: coarse)";
+const COARSE_QUERY = "(hover: none), (pointer: coarse), (any-pointer: coarse) and (max-width: 1024px)";
 const subscribeCoarse = (cb: () => void) => {
   const mq = window.matchMedia(COARSE_QUERY);
   mq.addEventListener("change", cb);

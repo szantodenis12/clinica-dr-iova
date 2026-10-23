@@ -34,58 +34,130 @@ ScrollTrigger.config({ ignoreMobileResize: true });
  * Offsets use the independent CSS `translate` property, so they compose with any CSS/GSAP `transform`
  * (reveal transitions, hover lifts, the hero entrance) instead of fighting over it.
  * Desktop with a fine pointer: full effect. Touch / <768px: native scroll and half-strength depth.
+ * Phones / touch (LITE): "lines" headings are a plain fade-up, no parallax inside horizontal swipe rows.
+ * Never revealed by scroll: anything inside <details> (FAQ answers). A safety sweep releases every pending
+ * reveal whose top is above the viewport bottom, so a flick or a layout jump can never leave text hidden.
  * Reduced motion (or JS off): no hidden states, no parallax, everything visible.
  */
 const FULL = "(prefers-reduced-motion: no-preference) and (min-width: 768px) and (hover: hover) and (pointer: fine)";
 const MOTION = "(prefers-reduced-motion: no-preference)";
+/**
+ * Phones / touch-first devices: lighter motion. `data-reveal="lines"` becomes a plain fade-up (no SplitText
+ * masks, no ScrollTrigger) and nothing inside a horizontal swipe row gets a scroll-driven parallax.
+ */
+const LITE = "(max-width: 700px), (hover: none), (pointer: coarse)";
+
+/** Closest ancestor that scrolls horizontally (.track, .gal, .marq and the mobile swipe rows), if any. */
+function hScroller(el: Element) {
+  for (let n = el.parentElement; n && n !== document.body; n = n.parentElement) {
+    if (/auto|scroll/.test(getComputedStyle(n).overflowX)) return n;
+  }
+  return null;
+}
 
 export default function Motion() {
   const pathname = usePathname();
 
   useEffect(() => {
     const root = document.documentElement;
-    root.classList.add("motion-ready"); // cancels the boot script's no-JS safety timeout
     const anim = root.classList.contains("has-anim") && matchMedia(MOTION).matches;
+    const lite = matchMedia(LITE).matches;
+    root.classList.toggle("motion-lite", anim && lite);
     const cleanups: (() => void)[] = [];
-
-    // ---------------- stagger -> per-child reveal ----------------
-    document.querySelectorAll<HTMLElement>("[data-stagger]").forEach((p) => {
-      Array.from(p.children).forEach((c, i) => {
-        const el = c as HTMLElement;
-        el.style.setProperty("--i", String(i));
-        if (!el.hasAttribute("data-reveal")) el.setAttribute("data-reveal", p.dataset.stagger || "");
-      });
-    });
+    const showAll = () => document.querySelectorAll<HTMLElement>("[data-reveal]").forEach((e) => e.classList.add("is-in"));
 
     // ---------------- reveals ----------------
-    const els = document.querySelectorAll<HTMLElement>("[data-reveal]");
-    if (!anim || !("IntersectionObserver" in window)) {
-      els.forEach((e) => e.classList.add("is-in"));
-    } else {
-      // mask reveals are clip-path'ed to zero area, so observe their parent instead
-      const map = new Map<Element, HTMLElement[]>();
-      const io = new IntersectionObserver(
-        (en) => {
-          en.forEach((e) => {
-            if (!e.isIntersecting) return;
-            const t = e.target as HTMLElement;
-            (map.get(t) || []).forEach((x) => x.classList.add("is-in"));
-            io.unobserve(t);
-          });
-        },
-        { rootMargin: "0px 0px -6% 0px", threshold: 0 }, // threshold 0: tall elements / mask parents must still fire
-      );
-      els.forEach((e) => {
-        if (e.classList.contains("is-in") || e.dataset.reveal === "lines") return; // lines: SplitText below
-        const p = e.parentElement;
-        // mask: clipped to zero area -> parent. Items of a horizontal swipe row (.track, .gal, mobile rows):
-        // the off-screen ones would never intersect -> the row reveals them together (stagger still applies).
-        const t = p && (e.dataset.reveal === "mask" || /auto|scroll/.test(getComputedStyle(p).overflowX)) ? p : e;
-        map.set(t, (map.get(t) || []).concat(e));
-        io.observe(t);
+    // Progressive enhancement: whatever goes wrong here, content must end up visible.
+    let sweep = () => {};
+    try {
+      // stagger -> per-child reveal
+      document.querySelectorAll<HTMLElement>("[data-stagger]").forEach((p) => {
+        Array.from(p.children).forEach((c, i) => {
+          const el = c as HTMLElement;
+          el.style.setProperty("--i", String(i));
+          if (!el.hasAttribute("data-reveal")) el.setAttribute("data-reveal", p.dataset.stagger || "");
+        });
       });
-      cleanups.push(() => io.disconnect());
+
+      const els = document.querySelectorAll<HTMLElement>("[data-reveal]");
+      if (!anim || !("IntersectionObserver" in window)) {
+        showAll();
+      } else {
+        // target -> the reveal elements it releases (mask reveals and swipe-row items share one target)
+        const map = new Map<Element, HTMLElement[]>();
+        const release = (t: Element) => {
+          (map.get(t) || []).forEach((x) => x.classList.add("is-in"));
+          map.delete(t);
+          io.unobserve(t);
+        };
+        const io = new IntersectionObserver(
+          (en) => {
+            en.forEach((e) => {
+              // also release targets that are already ABOVE the viewport: a fast flick can carry an element
+              // from below to above the viewport between two observer samples (WebKit / iOS momentum scroll),
+              // and it would then never report an intersection and stay hidden
+              const above = e.boundingClientRect.bottom <= (e.rootBounds ? e.rootBounds.top : 0);
+              if (e.isIntersecting || above) release(e.target);
+            });
+          },
+          { rootMargin: "0px 0px -6% 0px", threshold: 0 }, // threshold 0: tall elements / mask parents must still fire
+        );
+        els.forEach((e) => {
+          if (e.classList.contains("is-in")) return;
+          // FAQ answers (anything inside a <details>) never scroll-reveal: hidden while closed, so the observer
+          // cannot see them, and opening one must show the text at once
+          if (e.parentElement?.closest("details")) {
+            e.classList.add("is-in");
+            return;
+          }
+          if (e.dataset.reveal === "lines" && !lite) return; // lines: SplitText below (phones: plain fade-up)
+          const p = e.parentElement;
+          // mask: clipped to zero area -> parent. Items of a horizontal swipe row (.track, .gal, mobile rows):
+          // the off-screen ones would never intersect -> the row reveals them together (stagger still applies).
+          const t = hScroller(e) ?? (p && e.dataset.reveal === "mask" ? p : e);
+          map.set(t, (map.get(t) || []).concat(e));
+          io.observe(t);
+        });
+
+        // Safety pass: release every pending target whose top is above the viewport bottom (covers flicks,
+        // stale observer state after layout jumps, FAQ toggles, iOS toolbar resizes). Throttled, cheap.
+        sweep = () => {
+          if (!map.size) return;
+          const vb = window.innerHeight;
+          map.forEach((_, t) => {
+            if (!t.getClientRects().length) return; // display:none (filtered cards, hidden breakpoints)
+            if (t.getBoundingClientRect().top < vb) release(t);
+          });
+        };
+        let st = 0;
+        let last = 0;
+        const onScroll = () => {
+          const now = performance.now();
+          if (now - last > 200) {
+            last = now;
+            sweep();
+          }
+          window.clearTimeout(st);
+          st = window.setTimeout(sweep, 140); // trailing pass once the momentum stops
+        };
+        addEventListener("scroll", onScroll, { passive: true });
+        addEventListener("resize", onScroll, { passive: true });
+        document.addEventListener("toggle", onScroll, true); // <details> open/close (toggle does not bubble)
+        const timers = [700, 1600, 3200].map((ms) => window.setTimeout(sweep, ms));
+        cleanups.push(() => {
+          io.disconnect();
+          removeEventListener("scroll", onScroll);
+          removeEventListener("resize", onScroll);
+          document.removeEventListener("toggle", onScroll, true);
+          window.clearTimeout(st);
+          timers.forEach((x) => window.clearTimeout(x));
+        });
+      }
+    } catch (err) {
+      showAll();
+      console.error(err);
     }
+    root.classList.add("motion-ready"); // cancels the boot script's safety timeout (reveals are wired up)
 
     // ---------------- count-up ----------------
     document.querySelectorAll<HTMLElement>("[data-count]").forEach((el) => {
@@ -128,8 +200,9 @@ export default function Motion() {
         const k = full ? 1 : 0.5; // touch / small screens: half-strength depth
         const undo: (() => void)[] = [];
 
-        // headings: lines rise from behind a mask
-        document.querySelectorAll<HTMLElement>('[data-reveal="lines"]').forEach((el) => {
+        // headings: lines rise from behind a mask (not on phones / touch: they get a plain fade-up, see LITE)
+        if (!lite) document.querySelectorAll<HTMLElement>('[data-reveal="lines"]').forEach((el) => {
+          if (el.parentElement?.closest("details")) return;
           const split = SplitText.create(el, {
             type: "lines",
             mask: "lines",
@@ -153,6 +226,7 @@ export default function Motion() {
         document.querySelectorAll<HTMLElement>("[data-parallax]").forEach((el) => {
           const speed = parseFloat(el.dataset.parallax || "") * k;
           if (!Number.isFinite(speed) || !speed) return;
+          if (lite && hScroller(el)) return; // no per-scroll style writes inside swipe rows on touch
           const prop = el.dataset.parallaxProp;
           // a CSS-variable layer moves a pseudo-element of `el` itself, so `el` is its own root
           const rootEl = prop ? el : (el.parentElement?.closest<HTMLElement>("[data-parallax-root]") ?? el.parentElement ?? el);
@@ -194,6 +268,7 @@ export default function Motion() {
         document.querySelectorAll<HTMLElement>("[data-parallax-img]").forEach((el) => {
           const frame = el.parentElement;
           if (!frame) return;
+          if (lite && hScroller(frame)) return; // cards / gallery photos in swipe rows stay still on touch
           const travel = (parseFloat(el.dataset.parallaxImg || "") || 5) * (full ? 1 : 0.6);
           const scale = full ? 1.12 : 1.08; // drift stays covered while travel% <= (scale - 1) / 2
           // zoom-settle on entry (merci data-zoom / marcut RevealImage), then rest at `scale`.
@@ -238,20 +313,50 @@ export default function Motion() {
     cleanups.push(() => mm.revert());
 
     // ---------------- keep trigger positions right while the page settles ----------------
+    // Any change of the page height (late images / fonts, a FAQ opening or closing, filtered card grids) moves
+    // every trigger below it: re-measure, debounced, and never in the middle of a (momentum) scroll, where a
+    // refresh would cost a long frame on a phone. The iOS toolbar resize is ignored (ignoreMobileResize above).
     let to = 0;
+    let lastScroll = 0;
+    const onAnyScroll = () => {
+      lastScroll = performance.now();
+    };
     const refresh = () => {
       window.clearTimeout(to);
-      to = window.setTimeout(() => ScrollTrigger.refresh(), 120);
+      to = window.setTimeout(function run() {
+        if (performance.now() - lastScroll < 150) {
+          to = window.setTimeout(run, 150);
+          return;
+        }
+        ScrollTrigger.refresh();
+        sweep();
+      }, 120);
     };
+    addEventListener("scroll", onAnyScroll, { passive: true });
     const pending = Array.from(document.querySelectorAll<HTMLImageElement>("#continut img")).filter((i) => !i.complete);
     pending.forEach((i) => i.addEventListener("load", refresh, { once: true }));
     window.addEventListener("load", refresh);
     document.fonts?.ready.then(refresh);
+    document.addEventListener("toggle", refresh, true); // <details> (FAQ) open / close
+    let lastH = document.body.offsetHeight;
+    const ro =
+      "ResizeObserver" in window
+        ? new ResizeObserver(() => {
+            const h = document.body.offsetHeight;
+            if (Math.abs(h - lastH) < 2) return;
+            lastH = h;
+            refresh();
+          })
+        : null;
+    ro?.observe(document.body);
     const raf = requestAnimationFrame(() => ScrollTrigger.refresh());
     cleanups.push(() => {
       cancelAnimationFrame(raf);
       window.clearTimeout(to);
+      ro?.disconnect();
+      removeEventListener("scroll", onAnyScroll);
       window.removeEventListener("load", refresh);
+      document.removeEventListener("toggle", refresh, true);
       pending.forEach((i) => i.removeEventListener("load", refresh));
     });
 

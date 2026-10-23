@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 /**
  * Homepage doctors "marquee" (port of home.js marquee). Renders `.marq > .marq-track > children`.
@@ -10,16 +10,20 @@ import { useEffect, useRef } from "react";
 export default function DoctorsMarquee({ children, count }: { children: React.ReactNode; count: number }) {
   const marq = useRef<HTMLDivElement>(null);
   const track = useRef<HTMLDivElement>(null);
+  const [mode, setMode] = useState(0);
 
   useEffect(() => {
     const m = marq.current;
     const tr = track.current;
     if (!m || !tr) return;
     const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+    // phones / touch tablets: .marq is a native swipe row (mobile.css, same query); no timer, no transform
+    // writes, nothing that could fight the finger or re-trigger scroll snapping
+    const swipe = matchMedia("(max-width: 700px), (max-width: 1024px) and (hover: none)");
     const cleanups: (() => void)[] = [];
     let idx = 0;
 
-    if (!reduce) {
+    if (!reduce && !swipe.matches) {
       const first = tr.firstElementChild as HTMLElement;
       const stepW = () => {
         const z = parseFloat(getComputedStyle(document.documentElement).zoom) || 1;
@@ -53,15 +57,21 @@ export default function DoctorsMarquee({ children, count }: { children: React.Re
       });
     }
 
-    // keyboard: keep the focused card visible (marquee pauses via :focus-within check above)
+    // keyboard: keep the focused card visible (marquee pauses via :focus-within check above).
+    // Keyboard focus only: a tap focuses the link too (Android), and a smooth scrollIntoView then fought the swipe.
     const onFocusIn = (e: FocusEvent) => {
-      const card = (e.target as HTMLElement).closest(".dcard");
-      if (card) card.scrollIntoView({ block: "nearest", inline: "center", behavior: reduce ? "auto" : "smooth" });
+      const t = e.target as HTMLElement;
+      const card = t.closest(".dcard");
+      if (card && t.matches(":focus-visible")) card.scrollIntoView({ block: "nearest", inline: "center", behavior: reduce ? "auto" : "smooth" });
     };
     tr.addEventListener("focusin", onFocusIn);
     cleanups.push(() => tr.removeEventListener("focusin", onFocusIn));
+    // crossing the breakpoint (rotation, window resize): set up again for the new mode
+    const onMode = () => setMode((m) => m + 1);
+    swipe.addEventListener("change", onMode);
+    cleanups.push(() => swipe.removeEventListener("change", onMode));
     return () => cleanups.forEach((c) => c());
-  }, [count]);
+  }, [count, mode]);
 
   return (
     <div className="marq" data-reveal="fade" ref={marq}>
