@@ -26,6 +26,10 @@ export const metadata: Metadata = {
   metadataBase: new URL(BASE_URL),
   title: { absolute: SITE_NAME },
   icons: { icon: "/img/logo-driova-icon.png" },
+  // iOS Safari turns plain-text phone numbers ("Recepție: 0359 450 657") into <a href="tel:"> while parsing, before
+  // React hydrates: text mismatch -> "Hydration failed" + the whole page re-rendered on the client (+ a "script tag"
+  // error for the JSON-LD). Real call links are explicit tel: anchors anyway.
+  formatDetection: { telephone: false },
 };
 
 /**
