@@ -310,8 +310,10 @@ footer{background:var(--navy);color:#fff;padding:90px var(--pad) 90px}
 .flegal .made:hover b{color:var(--mint)}
 
 /* ---------- cookie consent ---------- */
-.ck{position:fixed;left:20px;bottom:20px;z-index:120;width:min(440px,calc(100vw - 40px));background:#fff;color:var(--ink);border-radius:18px;box-shadow:0 24px 60px rgba(13,22,45,.22);padding:22px 22px 18px;transform:translateY(20px);opacity:0;transition:transform .5s cubic-bezier(.2,.7,.2,1),opacity .5s}
-.ck.is-open{transform:none;opacity:1}
+.ck{position:fixed;left:20px;bottom:20px;z-index:120;width:min(440px,calc(100vw - 40px));background:#fff;color:var(--ink);border-radius:18px;box-shadow:0 24px 60px rgba(13,22,45,.22);padding:22px 22px 18px;transform:translateY(20px);opacity:0;transition:transform .5s cubic-bezier(.2,.7,.2,1),opacity .5s;
+  visibility:hidden;pointer-events:none} /* closed = invisible AND untouchable (it used to swallow taps on whatever sat under it) */
+.ck.is-open{transform:none;opacity:1;visibility:visible;pointer-events:auto}
+.ck:not(.is-open){transition:transform .5s cubic-bezier(.2,.7,.2,1),opacity .5s,visibility 0s .5s} /* hide only after the fade-out */
 .ck h3{font-size:17px;font-weight:600;letter-spacing:-.01em;display:flex;align-items:center;gap:8px}
 .ck h3 svg{width:18px;height:18px;color:var(--blue-deep)}
 .ck p{font-size:13.5px;line-height:1.5;color:var(--muted);margin-top:8px}

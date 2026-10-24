@@ -26,18 +26,20 @@
   .site:not(.page-programare) .wa-fab{display:none}
   .wa-panel{bottom:calc(86px + env(safe-area-inset-bottom,0px));max-height:calc(100dvh - 162px - env(safe-area-inset-bottom,0px))}
   .site:not(.page-admin) footer{padding-bottom:calc(100px + env(safe-area-inset-bottom,0px))}
-  .ck{bottom:calc(86px + env(safe-area-inset-bottom,0px));max-height:calc(100dvh - 160px - env(safe-area-inset-bottom,0px))}
+  /* cookie banner: its buttons must clear iOS 26 Safari's floating bottom bar + fade (~170px of the screen; dvh includes it) */
+  .ck{bottom:calc(150px + env(safe-area-inset-bottom,0px));max-height:calc(100dvh - 224px - env(safe-area-inset-bottom,0px))}
 
   /* ---- hero: one screen under the bar; Dr. Iova large on the right, copy low over his arms (never his face) ---- */
   html,body{overflow-x:hidden;overflow-x:clip} /* clip where supported: hidden on both html+body makes body a scroll container and breaks position:sticky */
-  /* --hh: height of the hero's first row (the hero starts at the top of the page, under the fixed 62px bar). NOT the
-     full screen: Safari's bottom toolbar (iOS 26: the floating Liquid Glass bar, which overlays even 100svh content)
-     and Android browser bars cover the bottom ~60-100px, which hid line 3 and the buttons (Roland 24.10, iPhone).
-     So the row ends 96px above the small viewport bottom (+ the safe-area inset, 0 unless viewport-fit=cover) and the
-     stats strip peeks in below it as a scroll hint; the buttons end >= 124px above the bottom of the screen.
-     --dh: cutout height so the head sits 16px under the bar
+  /* --hh: height of the hero's first row (the hero starts at the top of the page, under the fixed 62px bar).
+     Sized from the WIDTH, not from the viewport height: on iOS 26 Safari 100svh/dvh/lvh all include the area under the
+     floating Liquid Glass toolbar (and its fade), which covers roughly the bottom 170px of the screen; the svh-based
+     hero put line 3 and the buttons right under it (Roland 24.10, iPhone Pro Max). 150vw keeps the portrait composition,
+     the svh cap only matters on short phones (375x667, 360x640). The stats strip shows below as a scroll hint.
+     --dh: cutout height. His head sits 16px under the bar (y 78) and his crossed arms (74% of the PNG) end at the
+     bottom of the row, so he stays as large as before; the rest of the PNG runs on under the opaque stats strip.
      (PNG sorin-iova.png 1333x2000: transparent top = 15.25%, face = 15.25%..~37%, face x = 47%..72.5% of its width). */
-  .page-home .hero{overflow:hidden;--hh:max(480px,calc(100svh - 96px - env(safe-area-inset-bottom,0px)));--dh:calc((var(--hh) - 78px) / .8475)}
+  .page-home .hero{overflow:hidden;--hh:min(clamp(500px,150vw,700px),calc(100svh - 190px));--dh:calc((var(--hh) - 78px) / .5875)}
   .page-home .hero-frame{width:100%;display:grid;grid-template-columns:minmax(0,1fr);grid-template-rows:var(--hh) auto}
   /* ---- hero depth (Roland 24.10: "the text should weave through the doctor"): magazine-cover layering ----
      back to front: blue backdrop (.hero-bg) < H1 lines 1+2 (z1) < Dr. Iova (z2) < bottom scrim (z3) < line 3, kicker, buttons (z4).
@@ -50,7 +52,7 @@
       linear-gradient(170deg,var(--blue-deep) 0%,var(--blue) 55%,#5FB9DD 100%)}
   .page-home .hero-doc{grid-area:1/1;order:0;position:relative;inset:auto;width:100%;height:100%;margin:0!important;z-index:2;filter:none;opacity:1}
   /* head centre (59.5% of the cutout width) at 67% of the screen; the far sleeve may bleed off the right edge */
-  .page-home .hero-doc img{position:absolute;bottom:0;left:calc(67% - var(--dh) * .3966);height:var(--dh);width:auto;max-width:none;transform:none;
+  .page-home .hero-doc img{position:absolute;top:calc(78px - var(--dh) * .1525);left:calc(67% - var(--dh) * .3966);height:var(--dh);width:auto;max-width:none;transform:none;
     filter:drop-shadow(0 24px 40px rgba(13,22,45,.18))}
   /* no attribute parallax on phones (the hero runs its own scroll weave) */
   .page-home .hero-doc,.page-home .hero-inner,.page-home .stats{translate:none!important}
@@ -71,7 +73,7 @@
   .page-home .hero h1 .row{position:absolute;left:0;right:0;z-index:1;margin:0;padding:0 var(--hp)}
   .page-home .hero h1 .ln{white-space:nowrap;width:max-content}
   .page-home .hero h1 .row:nth-child(1){top:63px;font-size:calc((100vw - 2 * var(--hp)) / 4.83)} /* masthead: just under the bar, his crown in front */
-  .page-home .hero h1 .row:nth-child(2){top:calc(var(--hh) - var(--dh) * .62);margin-top:-.5em;font-size:calc((100vw - 2 * var(--hp)) / 6.72)} /* across the neck */
+  .page-home .hero h1 .row:nth-child(2){top:calc(78px + var(--dh) * .2275);margin-top:-.5em;font-size:calc((100vw - 2 * var(--hp)) / 6.72)} /* across the neck */
   /* editorial outline line. Open tracking (+.04em, not the -.06em of the solid lines): with negative tracking the
      outlined contours of neighbouring letters cross (R-O, O-G, L-O); at +.04em the tightest pairs (R-O, O-G, L-O)
      keep >= 1px of clear space between their strokes (ink boxes, 1.8px stroke, 390px wide).
