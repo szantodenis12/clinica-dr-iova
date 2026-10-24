@@ -30,9 +30,14 @@
 
   /* ---- hero: one screen under the bar; Dr. Iova large on the right, copy low over his arms (never his face) ---- */
   html,body{overflow-x:hidden;overflow-x:clip} /* clip where supported: hidden on both html+body makes body a scroll container and breaks position:sticky */
-  /* --hh: the hero box starts under the fixed 62px bar, so its visible part is 100svh - 62px (min 478px on very short phones). --dh: cutout height so the head sits 16px under the bar
+  /* --hh: height of the hero's first row (the hero starts at the top of the page, under the fixed 62px bar). NOT the
+     full screen: Safari's bottom toolbar (iOS 26: the floating Liquid Glass bar, which overlays even 100svh content)
+     and Android browser bars cover the bottom ~60-100px, which hid line 3 and the buttons (Roland 24.10, iPhone).
+     So the row ends 96px above the small viewport bottom (+ the safe-area inset, 0 unless viewport-fit=cover) and the
+     stats strip peeks in below it as a scroll hint; the buttons end >= 124px above the bottom of the screen.
+     --dh: cutout height so the head sits 16px under the bar
      (PNG sorin-iova.png 1333x2000: transparent top = 15.25%, face = 15.25%..~37%, face x = 47%..72.5% of its width). */
-  .page-home .hero{overflow:hidden;--hh:max(540px,100svh);--dh:calc((var(--hh) - 78px) / .8475)}
+  .page-home .hero{overflow:hidden;--hh:max(480px,calc(100svh - 96px - env(safe-area-inset-bottom,0px)));--dh:calc((var(--hh) - 78px) / .8475)}
   .page-home .hero-frame{width:100%;display:grid;grid-template-columns:minmax(0,1fr);grid-template-rows:var(--hh) auto}
   /* ---- hero depth (Roland 24.10: "the text should weave through the doctor"): magazine-cover layering ----
      back to front: blue backdrop (.hero-bg) < H1 lines 1+2 (z1) < Dr. Iova (z2) < bottom scrim (z3) < line 3, kicker, buttons (z4).
