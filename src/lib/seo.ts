@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { BASE_URL, DEFAULT_OG_IMAGE, SITE_NAME } from "./site";
+import { isDemo } from "./site-mode";
 
 type Opts = {
   title: string;
@@ -31,6 +32,7 @@ export function buildMetadata({ title, description, path, ogImage = DEFAULT_OG_I
       url,
       images: [{ url: BASE_URL + ogImage }],
     },
-    ...(noindex ? { robots: { index: false, follow: true } } : {}),
+    // demo: noindex, nofollow everywhere (a page-level `robots` replaces the root one, so it is set here too)
+    ...(isDemo ? { robots: { index: false, follow: false } } : noindex ? { robots: { index: false, follow: true } } : {}),
   };
 }

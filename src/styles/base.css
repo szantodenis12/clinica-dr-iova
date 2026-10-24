@@ -384,3 +384,7 @@ footer.ft .flegal{margin-top:34px}
 /* ---------- scroll areas inside fixed panels (marked data-lenis-prevent, so wheel/touch scroll stays inside) ---------- */
 .ck{max-height:calc(100dvh - 40px);overflow-y:auto;overscroll-behavior:contain}
 @media (max-width:700px){.ck{max-height:calc(100dvh - 104px)}}
+
+/* Demo mode (NEXT_PUBLIC_SITE_MODE=demo): cards that point to pages outside the demo keep their look but are inert (see SiteLink) */
+.demo-off{cursor:default}
+.demo-off .go,.demo-off .more,.demo-off .arr{display:none}

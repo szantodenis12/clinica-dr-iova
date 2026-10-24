@@ -116,3 +116,18 @@ Metadata (title/description) lives ONLY in the data file; routes, sitemap.xml, l
 - **Service**: add an object to `servicii` in `src/data/servicii.ts` (incl. `metaTitle`, `metaDescription`), body in `src/content/servicii/<slug>.tsx`; add its slug/label to `ServiceSlug`/`SERV` in `medici.ts` and `relCards` if it is linked from doctors/other services. Booking: add to `SERVICES` in `programare.ts`.
 - `programare.ts` (booking + admin) keeps its own DOCTORS/SERVICES: it is bundled client-side and importing `medici.ts` (FAQs, timelines) would bloat it; names also differ slightly (Sorin Iova full name, Caba short, "port armă" vs "port-armă").
 - Check: `npx tsc --noEmit`, then compare sitemap.xml / llms.txt on the dev server.
+
+## 13. Demo vs full (`NEXT_PUBLIC_SITE_MODE`)
+One repo, two builds. `src/lib/site-mode.ts` reads `NEXT_PUBLIC_SITE_MODE` (inlined at build time, so server and client agree) and exports `isDemo`, `DEMO_PATHS`
+(`/`, `/medici/sorin-iova/`, `/programare/`), `DEMO_NAV`, `demoAllows(href)` (port of `allowed()` in `clinica-dr-iova-site/build_demo.py`) and `linkAllowed(href)` (`!isDemo || demoAllows`).
+Mode source: `.env` (committed, `demo`, so a zero-config Vercel deploy is the demo) overridden by `.env.local` (gitignored, `full`, local dev). A Vercel env var overrides `.env`.
+Rules in demo (see build_demo.py): navigation and links go through the helpers, never DOM patching.
+- **Links**: use `<SiteLink>` (`components/SiteLink.tsx`) instead of `next/link`: allowed target = normal Link; removed target + `.btn` = nothing; any other (cards, pills, inline links) = `<a class="demo-off" tabindex="-1">` without href
+  (`.demo-off` + hidden `.go/.more/.arr` in base.css). Menu/footer list items: filter with `linkAllowed(href)` before rendering the `li`. New links on the 3 kept pages must use `SiteLink`.
+- **Nav** uses `DEMO_NAV`; **Footer** drops `.ft-cols` and the legal links (Confidențialitate / Cookie-uri / Termeni); **Breadcrumbs** render non-kept items as plain text.
+- **Cookies**: `<CookieConsent />` is not rendered and `CookieSettingsButton` returns null.
+- **Placeholders**: wrap `.todo` spans in `<Todo>` (`components/Todo.tsx`, null in demo). `Rich` (medici data) drops todo parts and a dangling " ·"; an emptied value shows "Le aflați de la recepție".
+- **404s**: `src/proxy.ts` (Next 16 `proxy`, ex-middleware) rewrites every path outside `DEMO_PATHS` (and `/robots.txt`) to a non-existent route => 404 (covers static pages, `[slug]` segments, `/admin/`, `/sitemap.xml`, `/llms.txt`). Assets (`/_next`, `/img`, `/fonts`) are excluded by its matcher.
+  `medici/[slug]` also only generates `sorin-iova` in demo. In full mode the proxy is a pass-through.
+- **SEO**: root metadata and `buildMetadata()` set `robots: noindex, nofollow` in demo; `robots.ts` = `Disallow: /`; `sitemap.ts` empty and `llms.txt` 404 (the proxy answers first anyway).
+- Dev tip: `next dev` uses `.next/dev`, so `next build` / `next start` can run while a dev server is up. Changing `.env*` needs a rebuild (production) or restart (dev picks it up on reload).

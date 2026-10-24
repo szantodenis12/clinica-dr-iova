@@ -2,8 +2,10 @@
 
 import { Fragment, useCallback, useEffect, useRef, useState, type CSSProperties, type FormEvent } from "react";
 import { flushSync } from "react-dom";
-import Link from "next/link";
+import SiteLink from "@/components/SiteLink";
 import Icon from "@/components/Icon";
+import Todo from "@/components/Todo";
+import { isDemo } from "@/lib/site-mode";
 import { waLink } from "@/lib/whatsapp";
 import { scrollToTarget } from "@/lib/motion";
 import {
@@ -561,8 +563,8 @@ export default function BookingFlow() {
                   </>
                 ) : null}
               </div>
-              <p className="note" id="doc-none" hidden={!!docList.length || !service || service === "nu-stiu"}>Pentru acest serviciu, specialistul este stabilit de recepție la confirmare. <span className="todo">de cerut de la client: cine susține ședințele de psihoterapie și EMDR</span></p>
-              <p className="side-note" id="doc-todo" hidden={!docList.length}><span className="todo">de confirmat cu clinica: repartizarea medicilor pe servicii</span></p>
+              <p className="note" id="doc-none" hidden={!!docList.length || !service || service === "nu-stiu"}>Pentru acest serviciu, specialistul este stabilit de recepție la confirmare. <Todo>de cerut de la client: cine susține ședințele de psihoterapie și EMDR</Todo></p>
+              {!isDemo && <p className="side-note" id="doc-todo" hidden={!docList.length}><Todo>de confirmat cu clinica: repartizarea medicilor pe servicii</Todo></p>}
             </section>
 
             {/* d) tip */}
@@ -581,14 +583,14 @@ export default function BookingFlow() {
                   <span className="ic"><Icon name="wallet" /></span>
                   <span className="tx"><b>Privat, cu plată</b>
                     <small>Nu aveți nevoie de bilet de trimitere. Recepția vă comunică tariful la confirmare.</small>
-                    <em className="price">Tarif: <span className="todo">de cerut de la client</span></em>
+                    {!isDemo && <em className="price">Tarif: <Todo>de cerut de la client</Todo></em>}
                   </span><span className="chk"><Icon name="check" /></span>
                 </button>
               </div>
               <p className="note" id="cas-cond" hidden={!(selService && selService.cas === "conditionat")}>Pentru serviciile psihologice, decontarea prin CAS depinde de recomandarea medicului specialist și de contractul clinicii pentru luna respectivă. Recepția vă spune exact la confirmare.</p>
               <p className="note warn" id="cas-only-privat" hidden={!casOff}>Avizul psihologic pentru port armă nu se decontează prin CAS. Se face doar privat.</p>
               <p className="note" id="cas-iova" hidden={!(selDoctor && selDoctor.casMinDays)}>Pentru Dr. Iova, programările prin CAS se fac cu minim o lună în avans. Calendarul de la pasul următor ține cont de acest lucru.</p>
-              <p className="step-foot"><span>Detalii despre bilet de trimitere și pași: <Link href="/cas/">Programare prin CAS</Link>.</span></p>
+              <p className="step-foot"><span>Detalii despre bilet de trimitere și pași: <SiteLink href="/cas/">Programare prin CAS</SiteLink>.</span></p>
             </section>
 
             {/* e) când */}
@@ -649,7 +651,7 @@ export default function BookingFlow() {
                   <small className="help">Maximum 300 de caractere. Detaliile medicale le discutați direct cu medicul, la consultație.</small>
                 </div>
                 <div className={"field full check" + (errs.c1 ? " has-err" : "")}>
-                  <label><input type="checkbox" id="f-c1" ref={(el) => { fieldRefs.current.c1 = el; }} checked={c1} aria-invalid={errs.c1 ? "true" : undefined} onChange={(e) => { setC1(e.target.checked); clearErr("c1"); }} /><span>Sunt de acord ca Clinica Dr. Iova să prelucreze datele de contact de mai sus pentru a gestiona această cerere de programare (nume, telefon, e-mail, data preferată). <Link href="/confidentialitate/">Politica de confidențialitate</Link>. <span aria-hidden="true">*</span></span></label>
+                  <label><input type="checkbox" id="f-c1" ref={(el) => { fieldRefs.current.c1 = el; }} checked={c1} aria-invalid={errs.c1 ? "true" : undefined} onChange={(e) => { setC1(e.target.checked); clearErr("c1"); }} /><span>Sunt de acord ca Clinica Dr. Iova să prelucreze datele de contact de mai sus pentru a gestiona această cerere de programare (nume, telefon, e-mail, data preferată). <SiteLink href="/confidentialitate/">Politica de confidențialitate</SiteLink>. <span aria-hidden="true">*</span></span></label>
                   <small className="err" role="alert">{errs.c1}</small>
                 </div>
                 <div className={"field full check" + (errs.c2 ? " has-err" : "")}>
@@ -657,7 +659,7 @@ export default function BookingFlow() {
                   <small className="err" role="alert">{errs.c2}</small>
                 </div>
               </div>
-              <p className="step-foot"><Icon name="lock" /><span>Datele sunt folosite doar pentru această programare și nu sunt transmise pentru reclame. Detalii în <Link href="/confidentialitate/">politica de confidențialitate</Link>.</span></p>
+              <p className="step-foot"><Icon name="lock" /><span>Datele sunt folosite doar pentru această programare și nu sunt transmise pentru reclame. Detalii în <SiteLink href="/confidentialitate/">politica de confidențialitate</SiteLink>.</span></p>
             </section>
 
           </div>
@@ -708,7 +710,7 @@ export default function BookingFlow() {
             <div className="done-actions">
               <a className="btn btn-dark" id="done-ics" href="#" onClick={(e) => { e.preventDefault(); if (doneReq) downloadIcs(doneReq); }}><Icon name="calendar-plus" />Adăugați în calendar</a>
               <a className="btn btn-line" id="done-wa" href={doneReq ? waLink(waMsg) : "#"} target="_blank" rel="noopener"><Icon name="message-circle" />Scrieți-ne pe WhatsApp</a>
-              <Link className="btn btn-line" href="/"><Icon name="house" />Prima pagină</Link>
+              <SiteLink className="btn btn-line" href="/"><Icon name="house" />Prima pagină</SiteLink>
             </div>
             <p className="prog-urgent"><Icon name="alert-triangle" /><span>Dacă starea dumneavoastră sau a persoanei pentru care ați făcut programarea se agravează, nu așteptați confirmarea. În caz de urgență sunați la <a href="tel:112">112</a>.</span></p>
           </div>

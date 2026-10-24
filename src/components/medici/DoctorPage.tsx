@@ -1,14 +1,15 @@
 import { Fragment } from "react";
-import Link from "next/link";
+import SiteLink from "@/components/SiteLink";
 import Icon, { type IconName } from "@/components/Icon";
 import Rich from "@/components/medici/Rich";
+import Todo from "@/components/Todo";
+import { isDemo } from "@/lib/site-mode";
 import { DOCTORS, SERV, STEPS, FAQS, KIND_WHO, KIND_H2, KIND_FAQ_H2, type Doctor } from "@/data/medici";
 
 const TEL = "tel:+40359450657";
 const PHONE = "0359 450 657";
-const TODO = (t: string) => (
-  <span className="todo">de cerut de la client (fișa medicului): {t}</span>
-);
+const TODO = (t: string) => <Todo>de cerut de la client (fișa medicului): {t}</Todo>;
+const ASK_RECEPTION = "Le aflați de la recepție"; // demo: replaces an empty value once its placeholder is removed
 
 /** Shared template for /medici/<slug>/ (body of the fragment, without breadcrumb / JSON-LD). */
 export default function DoctorPage({ d }: { d: Doctor }) {
@@ -36,7 +37,7 @@ export default function DoctorPage({ d }: { d: Doctor }) {
             ))}
           </div>
           <div className="ctas" data-reveal="">
-            <Link className="btn btn-dark" href={progHref}><Icon name="calendar" />Programare</Link>
+            <SiteLink className="btn btn-dark" href={progHref}><Icon name="calendar" />Programare</SiteLink>
             <a className="btn btn-line" href={TEL}><Icon name="phone" />{PHONE}</a>
           </div>
         </div>
@@ -54,8 +55,8 @@ export default function DoctorPage({ d }: { d: Doctor }) {
             <div className="md-fact"><span className="lbl"><Icon name="stethoscope" />Specialitate</span><span className="val">{d.title}</span></div>
             <div className="md-fact"><span className="lbl"><Icon name="users" />Consultă</span><span className="val">{who}</span></div>
             <div className="md-fact"><span className="lbl"><Icon name="receipt" />Prin CAS Bihor</span><span className="val"><Rich value={d.casVal} /></span></div>
-            <div className="md-fact"><span className="lbl"><Icon name="calendar-days" />Zile la clinică</span><span className="val">{TODO("zilele și orele de consultații; zilele CAS")}</span></div>
-            <div className="md-fact"><span className="lbl"><Icon name="languages" />Limbi</span><span className="val">Română · {TODO("alte limbi (maghiară, engleză)")}</span></div>
+            <div className="md-fact"><span className="lbl"><Icon name="calendar-days" />Zile la clinică</span><span className="val">{isDemo ? ASK_RECEPTION : TODO("zilele și orele de consultații; zilele CAS")}</span></div>
+            <div className="md-fact"><span className="lbl"><Icon name="languages" />Limbi</span><span className="val">Română{!isDemo && <> · {TODO("alte limbi (maghiară, engleză)")}</>}</span></div>
             <div className="md-fact"><span className="lbl"><Icon name="map-pin" />Unde</span><span className="val">Str. Ceyrat nr. 31, bl. WR12, Oradea</span></div>
             <div className="md-fact"><span className="lbl"><Icon name="clock" />Program clinică</span><span className="val">Luni–vineri, 08:00–20:00</span></div>
             <div className="md-fact"><span className="lbl"><Icon name="phone" />Programare</span><span className="val"><a href={TEL}>{PHONE}</a></span></div>
@@ -74,11 +75,11 @@ export default function DoctorPage({ d }: { d: Doctor }) {
           </div>
           <div className="md-serv" data-stagger="">
             {d.serv.map((s) => (
-              <Link key={s} className="pill" href={`/servicii/${s}/`}>
+              <SiteLink key={s} className="pill" href={`/servicii/${s}/`}>
                 <Icon name={SERV[s][1] as IconName} />
                 {SERV[s][0]}
                 <Icon name="arrow-up-right" className="arr" />
-              </Link>
+              </SiteLink>
             ))}
           </div>
           {d.servNote && (
@@ -127,7 +128,7 @@ export default function DoctorPage({ d }: { d: Doctor }) {
             ))}
           </div>
           <div className="md-notes" data-stagger="">
-            <div className="note">{titleWord} vă poate îndruma, în aceeași clinică, către <Link href="/servicii/">celelalte specialități</Link>: psihiatrie pentru adulți și copii, neurologie, psihologie clinică și logopedie.</div>
+            <div className="note">{titleWord} vă poate îndruma, în aceeași clinică, către <SiteLink href="/servicii/">celelalte specialități</SiteLink>: psihiatrie pentru adulți și copii, neurologie, psihologie clinică și logopedie.</div>
             <div className="note warn">În caz de urgență, sunați la 112. Clinica nu funcționează ca serviciu de urgență.</div>
           </div>
         </div>
@@ -155,16 +156,16 @@ export default function DoctorPage({ d }: { d: Doctor }) {
           <div className="sec-head" style={{ marginBottom: 32 }}>
             <div>
               <h2 className="h2" data-reveal="lines">Ceilalți medici<br />ai clinicii</h2>
-              <p className="lead" data-reveal="">Psihiatri pentru adulți și copii, neurolog și psiholog clinician, la aceeași recepție. <Link href="/#recenzii" style={{ color: "var(--blue-deep)", textDecoration: "underline", textUnderlineOffset: 3 }}>Recenziile clinicii pe Google</Link>.</p>
+              <p className="lead" data-reveal="">Psihiatri pentru adulți și copii, neurolog și psiholog clinician, la aceeași recepție. <SiteLink href="/#recenzii" style={{ color: "var(--blue-deep)", textDecoration: "underline", textUnderlineOffset: 3 }}>Recenziile clinicii pe Google</SiteLink>.</p>
             </div>
-            <Link className="btn btn-line" href="/medici/"><Icon name="users" />Toți medicii</Link>
+            <SiteLink className="btn btn-line" href="/medici/"><Icon name="users" />Toți medicii</SiteLink>
           </div>
           <div className="md-others" data-stagger="scale">
             {others.map((o) => (
-              <Link key={o.slug} className="md-mini" href={`/medici/${o.slug}/`}>
+              <SiteLink key={o.slug} className="md-mini" href={`/medici/${o.slug}/`}>
                 <img src={`/img/trim/${o.slug}.png`} alt="" />
                 <span className="n">{o.h1}<small>{o.title}</small></span>
-              </Link>
+              </SiteLink>
             ))}
           </div>
         </div>
@@ -179,7 +180,7 @@ export default function DoctorPage({ d }: { d: Doctor }) {
           </div>
           <div className="ctas">
             <a className="btn btn-light" href={TEL}><Icon name="phone" />{PHONE}</a>
-            <Link className="btn btn-ghost" href={progHref}><Icon name="calendar" />Programare online</Link>
+            <SiteLink className="btn btn-ghost" href={progHref}><Icon name="calendar" />Programare online</SiteLink>
           </div>
         </div>
       </div>

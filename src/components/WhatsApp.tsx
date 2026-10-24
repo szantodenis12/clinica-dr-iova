@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
 import Icon, { type IconName } from "./Icon";
 import { waLink } from "@/lib/whatsapp";
+import Todo from "./Todo";
 
 const INTENTS: { icon: IconName; label: string; msg: string }[] = [
   {
@@ -96,7 +97,7 @@ export default function WhatsApp() {
               0359 450 657
             </a>
           </p>
-          <span className="todo">număr WhatsApp: de cerut de la client</span>
+          <Todo>număr WhatsApp: de cerut de la client</Todo>
         </div>
       </div>
       <button

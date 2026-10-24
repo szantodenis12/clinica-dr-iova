@@ -2,6 +2,7 @@ import Link from "next/link";
 import Icon from "./Icon";
 import FooterWordmark from "./FooterWordmark";
 import CookieSettingsButton from "./CookieSettingsButton";
+import { isDemo } from "@/lib/site-mode";
 
 export default function Footer() {
   return (
@@ -59,6 +60,8 @@ export default function Footer() {
             </div>
           </div>
         </div>
+        {/* demo: no link columns (they point to pages that do not exist), CTAs + contact card are enough */}
+        {!isDemo && (
         <div className="ft-cols">
           <div>
             <h4>Clinica</h4>
@@ -97,13 +100,18 @@ export default function Footer() {
             </ul>
           </div>
         </div>
+        )}
         <FooterWordmark />
         <div className="flegal">
           <span>© 2026 Cabinete de Psihiatrie Dr. Iova S.R.L. · CUI 46237987</span>
           <nav aria-label="Informații legale">
-            <Link href="/confidentialitate/">Confidențialitate</Link>
-            <Link href="/cookies/">Cookie-uri</Link>
-            <Link href="/termeni/">Termeni și condiții</Link>
+            {!isDemo && (
+              <>
+                <Link href="/confidentialitate/">Confidențialitate</Link>
+                <Link href="/cookies/">Cookie-uri</Link>
+                <Link href="/termeni/">Termeni și condiții</Link>
+              </>
+            )}
             <CookieSettingsButton />
             <a href="https://reclamatiisal.anpc.ro/" target="_blank" rel="noopener">ANPC · SAL</a>
           </nav>

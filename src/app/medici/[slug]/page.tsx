@@ -6,12 +6,14 @@ import Breadcrumbs from "@/components/Breadcrumbs";
 import JsonLd from "@/components/JsonLd";
 import DoctorPage from "@/components/medici/DoctorPage";
 import { BASE_URL } from "@/lib/site";
+import { isDemo } from "@/lib/site-mode";
 import { FAQS, doctorSlugs, getDoctor, richText } from "@/data/medici";
 
 export const dynamicParams = false;
 
 export function generateStaticParams() {
-  return doctorSlugs().map((slug) => ({ slug }));
+  // demo: only Dr. Iova's page is generated (dynamicParams = false => every other slug is a 404)
+  return doctorSlugs().filter((slug) => !isDemo || slug === "sorin-iova").map((slug) => ({ slug }));
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {

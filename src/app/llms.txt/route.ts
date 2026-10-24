@@ -1,10 +1,12 @@
 import { routes } from "@/lib/routes";
 import { BASE_URL } from "@/lib/site";
+import { isDemo } from "@/lib/site-mode";
 
 export const dynamic = "force-static";
 
 /** Port of the llms.txt generation in build.py; grouped by first path segment. */
 export function GET() {
+  if (isDemo) return new Response("Not found", { status: 404 }); // demo: not published
   const out: string[] = [
     "# Clinica Dr. Iova",
     "",

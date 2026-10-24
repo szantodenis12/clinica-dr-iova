@@ -14,6 +14,7 @@ import Motion from "@/components/Motion";
 import SmoothScroll from "@/components/motion/SmoothScroll";
 import JsonLd from "@/components/JsonLd";
 import { BASE_URL, ORG_SCHEMA, SITE_NAME } from "@/lib/site";
+import { isDemo } from "@/lib/site-mode";
 
 const interTight = Inter_Tight({
   subsets: ["latin", "latin-ext"],
@@ -30,6 +31,8 @@ export const metadata: Metadata = {
   // React hydrates: text mismatch -> "Hydration failed" + the whole page re-rendered on the client (+ a "script tag"
   // error for the JSON-LD). Real call links are explicit tel: anchors anyway.
   formatDetection: { telephone: false },
+  // demo: never indexed (page-level metadata from buildMetadata() repeats this, since robots is not deep-merged)
+  ...(isDemo ? { robots: { index: false, follow: false } } : {}),
 };
 
 /**
@@ -54,7 +57,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <Footer />
           <MobileBar />
           <WhatsApp />
-          <CookieConsent />
+          {!isDemo && <CookieConsent />}
           <Motion />
         </SiteShell>
         </SmoothScroll>

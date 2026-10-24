@@ -1,5 +1,5 @@
 import type { CSSProperties } from "react";
-import Link from "next/link";
+import SiteLink from "@/components/SiteLink";
 import "@/styles/home.css";
 import "@/styles/mobile.css"; // always last
 import { buildMetadata } from "@/lib/seo";
@@ -7,6 +7,7 @@ import { getRoute } from "@/lib/routes";
 import JsonLd from "@/components/JsonLd";
 import Icon, { type IconName } from "@/components/Icon";
 import Arrows from "@/components/Arrows";
+import Todo from "@/components/Todo";
 import HeroEntrance from "@/components/home/HeroEntrance";
 import DoctorsMarquee from "@/components/home/DoctorsMarquee";
 
@@ -62,7 +63,7 @@ const doctors: { slug: string; dy: string; tag: string; name: string; role: stri
 
 function DoctorCard({ d, clone }: { d: (typeof doctors)[number]; clone?: boolean }) {
   return (
-    <Link
+    <SiteLink
       className={`dcard${clone ? " is-clone" : ""}`}
       href={`/medici/${d.slug}/`}
       style={{ "--dy": d.dy } as CSSProperties}
@@ -82,7 +83,7 @@ function DoctorCard({ d, clone }: { d: (typeof doctors)[number]; clone?: boolean
           <Icon name="chevron-right" />
         </span>
       </div>
-    </Link>
+    </SiteLink>
   );
 }
 
@@ -143,8 +144,8 @@ export default function HomePage() {
               <span className="row"><span className="ln">Psihologie</span></span>
             </h1>
             <div className="ctas">
-              <Link className="btn btn-dark" href="/programare/"><Icon name="calendar" />Programare</Link>
-              <Link className="btn btn-light" href="/medici/"><Icon name="search" />Găsiți un medic</Link>
+              <SiteLink className="btn btn-dark" href="/programare/"><Icon name="calendar" />Programare</SiteLink>
+              <SiteLink className="btn btn-light" href="/medici/"><Icon name="search" />Găsiți un medic</SiteLink>
             </div>
             <div className="bottom">
               <p>Psihiatrie pentru adulți și copii, neurologie, psihologie clinică și logopedie, la aceeași recepție din Oradea. Cu bilet de trimitere, consultațiile sunt gratuite prin CAS.</p>
@@ -174,10 +175,10 @@ export default function HomePage() {
         <div className="wrap" style={{ paddingRight: 0 }}>
           <div className="track" id="t1" data-stagger="">
             {services.map(([href, img, h, p]) => (
-              <Link key={href} className="pcard" href={href}>
+              <SiteLink key={href} className="pcard" href={href}>
                 <img src={`/img/gen/${img}`} alt="" data-parallax-img="" />
                 <div className="t"><h3>{h}</h3><p>{p}</p></div>
-              </Link>
+              </SiteLink>
             ))}
           </div>
         </div>
@@ -193,16 +194,16 @@ export default function HomePage() {
               <p className="lead" data-reveal="">Consultații, evaluări și terapii pentru copii și adulți. Recepția vă spune la ce medic să mergeți.</p>
             </div>
             <div className="sec-cta" data-reveal="">
-              <Link className="btn btn-dark" href="/programare/"><Icon name="calendar" />Programare</Link>
-              <Link className="btn btn-line" href="/medici/"><Icon name="search" />Găsiți un medic</Link>
+              <SiteLink className="btn btn-dark" href="/programare/"><Icon name="calendar" />Programare</SiteLink>
+              <SiteLink className="btn btn-line" href="/medici/"><Icon name="search" />Găsiți un medic</SiteLink>
             </div>
           </div>
           <div className="grid4" data-stagger="">
             {specs.map(([href, icon, label]) => (
-              <Link key={href} className="spec" href={href}>
+              <SiteLink key={href} className="spec" href={href}>
                 <span className="ic"><Icon name={icon} /></span>
                 {label}
-              </Link>
+              </SiteLink>
             ))}
           </div>
         </div>
@@ -216,7 +217,7 @@ export default function HomePage() {
               <h2 className="h2" data-reveal="lines">Medicii<br />clinicii</h2>
               <p className="lead" data-reveal="">Medici primari și specialiști, cadre universitare și psihologi clinicieni.</p>
             </div>
-            <Link className="btn btn-line" href="/medici/" data-reveal="">Toți medicii<Icon name="arrow-right" /></Link>
+            <SiteLink className="btn btn-line" href="/medici/" data-reveal="">Toți medicii<Icon name="arrow-right" /></SiteLink>
           </div>
         </div>
         <DoctorsMarquee count={doctors.length}>
@@ -262,7 +263,7 @@ export default function HomePage() {
                 ))}
               </div>
               <div className="of">din 16 recenzii pe Google</div>
-              <small>Datele Google din 19.10.2026 <span className="todo">de actualizat la lansare</span></small>
+              <small>Datele Google din 19.10.2026 <Todo>de actualizat la lansare</Todo></small>
               <div className="rev-ctas">
                 <a className="btn btn-dark" href={GOOGLE} target="_blank" rel="noopener">Citiți recenziile pe Google<Icon name="arrow-up-right" /></a>
                 <a className="btn btn-line" href={GOOGLE} target="_blank" rel="noopener"><Icon name="pen-line" />Lăsați o recenzie</a>
@@ -287,8 +288,8 @@ export default function HomePage() {
           <div className="sec-head">
             <h2 className="h2" data-reveal="lines">Programarea,<br />în trei pași</h2>
             <div className="sec-cta" data-reveal="">
-              <Link className="btn btn-dark" href="/programare/"><Icon name="calendar" />Programare online</Link>
-              <Link className="btn btn-line" href="/cas/"><Icon name="book-open" />Ghid CAS</Link>
+              <SiteLink className="btn btn-dark" href="/programare/"><Icon name="calendar" />Programare online</SiteLink>
+              <SiteLink className="btn btn-line" href="/cas/"><Icon name="book-open" />Ghid CAS</SiteLink>
             </div>
           </div>
           <div className="steps" data-stagger="">
@@ -330,7 +331,7 @@ export default function HomePage() {
         <div className="wrap faq">
           <h2 className="h2" data-reveal="lines">Întrebări<br />frecvente</h2>
           <div data-stagger="">
-            <details><summary>Cum fac o programare?<Icon name="chevron-down" /></summary><p>Online, din pagina <Link href="/programare/">Programare</Link>, sau telefonic la recepție, 0359 450 657, de luni până vineri între 08:00 și 20:00. Puteți scrie și la receptie@clinicadriova.ro.</p></details>
+            <details><summary>Cum fac o programare?<Icon name="chevron-down" /></summary><p>Online, din pagina <SiteLink href="/programare/">Programare</SiteLink>, sau telefonic la recepție, 0359 450 657, de luni până vineri între 08:00 și 20:00. Puteți scrie și la receptie@clinicadriova.ro.</p></details>
             <details><summary>Consultația este gratuită prin CAS?<Icon name="chevron-down" /></summary><p>Da, dacă veniți cu bilet de trimitere. Clinica are contract cu CAS Bihor. Fără bilet, consultația se plătește.</p></details>
             <details><summary>Tratați și copii?<Icon name="chevron-down" /></summary><p>Da. Dr. Roxana Samuila este medic specialist în psihiatrie pediatrică, iar la clinică lucrează și psiholog clinician și logoped pentru copii.</p></details>
             <details><summary>Ce evaluări psihologice faceți?<Icon name="chevron-down" /></summary><p>Evaluări ale copiilor, evaluări pentru comisiile de handicap și pensionare, avize psihologice pentru permisul de port-armă.</p></details>
@@ -350,7 +351,7 @@ export default function HomePage() {
           </div>
           <div className="ctas" data-reveal="right">
             <a className="btn btn-light" href="tel:+40359450657"><Icon name="phone" />0359 450 657</a>
-            <Link className="btn btn-ghost" href="/medici/"><Icon name="search" />Găsiți un medic</Link>
+            <SiteLink className="btn btn-ghost" href="/medici/"><Icon name="search" />Găsiți un medic</SiteLink>
           </div>
         </div>
       </div>

@@ -5,8 +5,9 @@ import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import Icon from "./Icon";
 import { lockScroll } from "@/lib/motion";
+import { isDemo, DEMO_NAV } from "@/lib/site-mode";
 
-const LINKS = [
+const FULL_LINKS = [
   ["/", "Acasă"],
   ["/servicii/", "Servicii"],
   ["/medici/", "Medici"],
@@ -15,6 +16,8 @@ const LINKS = [
   ["/despre/", "Clinica"],
   ["/contact/", "Contact"],
 ] as const;
+// demo: only the 3 kept pages (same labels as build_demo.py)
+const LINKS = isDemo ? DEMO_NAV : FULL_LINKS;
 
 export default function Nav() {
   const pathname = usePathname();

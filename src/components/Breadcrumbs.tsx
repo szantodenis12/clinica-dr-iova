@@ -1,6 +1,7 @@
 import Link from "next/link";
 import JsonLd from "./JsonLd";
 import { BASE_URL } from "@/lib/site";
+import { linkAllowed } from "@/lib/site-mode";
 
 type Crumb = [label: string, path: string];
 
@@ -28,9 +29,7 @@ export default function Breadcrumbs({ items }: { items: Crumb[] }) {
         <ol>
           {all.map(([label, p], i) =>
             i < all.length - 1 ? (
-              <li key={p}>
-                <Link href={p}>{label}</Link>
-              </li>
+              <li key={p}>{linkAllowed(p) ? <Link href={p}>{label}</Link> : label /* demo: page does not exist => plain text */}</li>
             ) : (
               <li key={p} aria-current="page">
                 {label}
